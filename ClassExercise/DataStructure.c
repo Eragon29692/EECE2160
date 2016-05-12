@@ -43,8 +43,8 @@ int main () {
     TV_List *head = NULL; // Declare a linked list head pointer
 
     printf("\nProcessing Array Data....\n");
-    //Add_ShowsArray(shows);   // Passing an array in C means 
-    //print_ShowsArray(shows); //passing the pointer to the first element
+    Add_ShowsArray(shows);   // Passing an array in C means 
+    print_ShowsArray(shows); //passing the pointer to the first element
 
     printf("\n\nProcessing Linked List Data....\n");
     //add_LinkedList(&head);  // Passing by reference
@@ -72,33 +72,26 @@ void readShows(char *tvName, int *minutes) {
  * @param shows   pointer to the shows array
  */
 //*********DEFINE Add_ShowsArray() HERE. SEE PROTOTYPE ABOVE ********
-
-
-
-
-
-
-
-
-
-
-
+void Add_ShowsArray(TV_Shows *shows) {
+    int i = 5;
+    for (i = 0; i < 5; i++) {
+        printf("TV SHOW NUMBER %d:", i);
+        readShows(shows[i].programName, &shows[i].minutes);
+        printf("\n");
+    }
+}
 /**
  * Prints TV shows information from array
  * 
  * @param show_Info   pointer to the shows array
  */
 //*********DEFINE print_ShowsArray() HERE. SEE PROTOTYPE ABOVE ********
-
-
-
-
-
-
-
-
-
-
+void print_ShowsArray(TV_Shows show_Info[]) {
+    int i = 5;
+    for (int i = 0; i < 5; i++) {
+        printf("TV SHOW %d INFOMATION:\n Program Name: %s\n, Running time: %d\n\n", i, show_Info[i].programName, show_Info[i].minutes);
+    }
+}
 // end print_ShowsArray()
 
 /**
@@ -107,7 +100,10 @@ void readShows(char *tvName, int *minutes) {
  * @param *head   pointer (TV_List **head) to the head pointer
  */
 //*********DEFINE add_LinkedList() HERE. SEE PROTOTYPE ABOVE ********
+void add_LinkedList(TV_List **head) {
+    
 
+} 
 
 
 

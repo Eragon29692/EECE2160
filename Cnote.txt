@@ -9,4 +9,13 @@ typedef struct Person {
     char grade;
     struct Person *next;
 } Person;
- 
+
+//Creating a linkedlist
+function(TV_list **head); //head is a pointer of type TV_list *
+TV_list *newNode = (TV_list *)malloc(sizeof(TV_list));
+read into newNode
+newNode->next = *head;
+*head = newNode
+
+point newNode to where *head is pointing
+then point *head to newNode  
