@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int a[10], i, swap, d, c;
+
+    for (i =0;i<10;i++) { 
+	printf("Please input a number:  ");
+	scanf("%d",&a[i]);
+    }
+
+    for (c = 0 ; c < (9 ); c++) {
+        for (d = 0 ; d < 9 - c ; d++) {
+            if (a[d] > a[d+1]) {
+                swap   = a[d];
+                a[d]   = a[d+1];
+                a[d+1] = swap;
+            } 
+        }
+    } 
+
+    for (c=0;c<9;c++) {
+        printf("%d, ", a[c]);
+    }
+
+    printf("%d\n", a[c]);
+	
+}
+
