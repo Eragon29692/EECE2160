@@ -1,0 +1,12 @@
+//create a pointer to an array. typecast malloc from void to Person* pointer 
+struct Person *array;
+array = (struct Person*)malloc(30 * sizeof(struct Person))
+
+//using typedef struct ... {} name to not duplicating the struct name everytime
+typedef struct Person {
+    char name[20];
+    int score;
+    char grade;
+    struct Person *next;
+} Person;
+ 
