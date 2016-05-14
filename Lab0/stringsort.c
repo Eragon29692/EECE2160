@@ -1,6 +1,6 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 int main() {
     //create a 2 dimentinal array to store 10 strings
@@ -12,8 +12,9 @@ int main() {
 
 	//promt user for 10 strings and store them in the 2 dimentinal array
     for (i = 0; i < 10; i++) {
-        printf("\nEnter the name %d: ", i);
-        gets(str[i]);
+        printf("Enter the name %d: ", i);
+        fgets(str[i], 20, stdin);
+	str[i][strlen(str[i]) - 1] = '\0';
     }
 
 	//sort the strings in the 2 dimentinal array using strcmp and strcpy
