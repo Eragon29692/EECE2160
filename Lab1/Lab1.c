@@ -40,7 +40,7 @@ void Grow() {
     //copying elements to the new vector
     int i;
     for (i = 0; i < count; i++) {
-        *(newVector + i) = *(v+i); 
+        *(newVector + i) = *(v + i); 
     }
 
     //free up the old memory space
@@ -52,7 +52,7 @@ void Grow() {
     //print the previous size
     printf("previous capacity: %d\n", size);
     //adjust and print the new vector's size
-    size = size*2;
+    size = size * 2;
     printf("new capacity: %d\n",size);
 }
 
@@ -61,9 +61,9 @@ void Grow() {
 //Implementation of Add Element
 void AddElement(){
     //reading a new number from the user
-    float newelem;
-    printf("\nEnter a new element: ");
-    scanf("%f", &newelem);
+    double newelem;
+    printf("Enter a new element: ");
+    scanf("%lf", &newelem);
     
     //if there is no more space, grow the vector first
     if (count == size){
@@ -84,11 +84,11 @@ void PrintVector(){
     int i;
     printf("You have selected to print the array:\n ");
     for (i = 0; i < count - 1; i++){
-        printf("%lf, ",*(v+i));
+        printf("%g, ",*(v + i));
     }
     //print the last element seperatly to avoid the ending comma
     if (count > 0) {
-     printf("%lf\n", *(v+i));
+     printf("%g\n", *(v + i));
     }
 }
 
@@ -101,7 +101,7 @@ void RemoveElement(){
         return;
     }
     //reduce count to "remove" the last element
-    count  = count-1;
+    count  = count - 1;
     //Shrink the vector if less than 30%
     Shrink();
 }
@@ -111,7 +111,7 @@ void RemoveElement(){
 //notice we are using index from 1st -> nth not from 0 for ease of use
 void InsertElement(){
     int placement;
-    int newelem;
+    double newelem;
     int i;
     //grow the vector first if there is no empty space
     if (count == size){
@@ -130,7 +130,7 @@ void InsertElement(){
 
     //promt user for new element
     printf("Enter the new element:");
-    scanf("%d",&newelem);
+    scanf("%lf",&newelem);
 
     //move all the elements from the right of the insert 
     for (i = count - 1; i >= placement - 1; i--){
