@@ -114,14 +114,49 @@ int main() {
 	struct List list;				// Create the main list
 	ListInitialize(&list);			// Initialize the list
 //*************** PUT THE REST OF YOUR CODE HERE  *****************
+    
+	//using a string here to make sure user enter 
+    int option;
+    //switch cases
+    while(option != 5) {
+        printf("\n\nMain menu:\n\n");
+        printf("1. Add a person\n");
+        printf("2. Find a person\n");
+        printf("3. Remove a person\n");
+        printf("4. Print the list\n");
+        printf("5. Exit\n\n");
+        printf("Select an option: ");
 
-
-
-
-
-
-
-
+        //getting user's option input
+        scanf("%d", &option);
+    
+        //switch cases
+        switch(option) {
+            case 1 :
+                printf("You selected \"Add a person\"\n");
+                break;            
+            case 2 :
+                printf("You selected \"Find a person\"\n");
+                //AddElement();
+                break;
+            case 3 :
+                printf("You selected \"Remove a person\"\n");
+                //RemoveElement();
+                break;
+            case 4 :
+                printf("You selected \"Print the list\"\n");
+                //InsertElement();
+                break;
+            case 5 :
+                printf("Exiting...\n\n\n");
+                //Finalize();
+                break;
+            default:
+                printf("Invalid Option");
+                while(getchar() != '\n');
+                break;
+        }
+    }
 
 	return 0;
 } //end main
