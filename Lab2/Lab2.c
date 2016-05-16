@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//trail
+//new
 // Linked List Management Code
 struct Person
 {
