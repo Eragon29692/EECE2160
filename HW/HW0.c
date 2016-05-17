@@ -1,7 +1,9 @@
 #include <stdio.h>
 
 int add(int x, int y);
+int difference(int x, int y);
 void printBinary(int x);
+
 
 int add(int x, int y) {
     while (y != 0) {
@@ -12,8 +14,15 @@ int add(int x, int y) {
     return x;
 }
 
+int difference(int x, int y) {
+    if (add(x, -y) > 0)
+        return add(x, -y);
+    else 
+        return add(y, -x); 
+}
+
 void printBinary(int x) {
-    int i = 31;
+    int i;
     int size = 2<<sizeof(int);
     for (i = size; i > 0;) {
         i--;
@@ -26,16 +35,22 @@ void printBinary(int x) {
 }
 
 int main() {
-    int x, y, sum;
-    printf("Enter x: ");
+    int x, y, sum, diff;
+   
+     printf("Enter x: ");
     scanf("%d",&x);
     printf("Enter y: ");
     scanf("%d", &y);
     
     sum = add(x, y);
+    diff = difference(x, y);
 
     printf("a) The result of %d + %d is: \nBase 10: %d\nBase 2: ", x, y, sum); 
     printBinary(sum);
+
+    printf("\nb) The difference between %d and %d is: \nBase 10: %d\nBase 2: ", x, y, diff);
+    printBinary(diff);
+
     printf("\n\n");
     return 0;
 }
