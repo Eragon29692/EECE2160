@@ -15,10 +15,10 @@ int add(int x, int y) {
 }
 
 int difference(int x, int y) {
-    if (add(x, -y) > 0)
-        return add(x, -y);
+    if (add(x, add(~y, 1)) > 0)
+        return add(x, add(~y, 1));
     else 
-        return add(y, -x); 
+        return add(y, add(~x, 1)); 
 }
 
 void printBinary(int x) {
@@ -37,7 +37,7 @@ void printBinary(int x) {
 int main() {
     int x, y, sum, diff;
    
-     printf("Enter x: ");
+    printf("Enter x: ");
     scanf("%d",&x);
     printf("Enter y: ");
     scanf("%d", &y);
