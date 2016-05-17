@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+// new
 // Linked List Management Code
 struct Person
 {
@@ -27,6 +27,16 @@ struct List
 	// Number of persons in the list
 	int count;
 };
+
+int id;
+void AddPerson(struct List *);
+/*void ListInitialize(struct List *);
+void ListNext(struct List *);
+void ListHead(struct List *);
+struct Person(struct List *);
+void ListInsert(struct List *, struct Person *);
+void ListRemove(struct List *);
+void PrintPerson(struct Person *)*/
 
 // Give an initial value to all the fields in the list.
 void ListInitialize(struct List *list)
@@ -100,6 +110,7 @@ void ListRemove(struct List *list)
 	free(list->current);
 	// Set new current element
 	list->current = next;
+	list->count = list->count - 1;
 }
 void PrintPerson(struct Person *person)
 {
@@ -107,6 +118,107 @@ void PrintPerson(struct Person *person)
 	printf("\tName: %s\n", person->name);
 	printf("\tAge: %d\n\n", person->age);
 }
+// takes the list pointer and uses print person to print each person
+void PrintList(struct List *list)
+{
+	int i;
+	ListHead(list);
+	while (list->current){
+		PrintPerson(ListGet(list));
+		ListNext(list);
+	}
+	ListHead(list);
+}
+
+void FindPerson(struct List *list){
+	int tempid;
+	printf("Enter desierd id:");
+	scanf("%d",&tempid);
+     	ListFind(list,tempid);
+	if (list->current){
+	PrintPerson(ListGet(list));	
+	}
+	else{
+	printf("Cannot find such ID");
+	}
+}
+
+void RemovePerson(struct List *list){
+        int tempid;
+        printf("Enter desierd id:");
+        scanf("%d",&tempid);
+        ListFind(list,tempid);
+        if (list->current){
+        ListRemove(list);
+        }
+        else{
+        printf("Cannot find such ID");
+        }
+}
+
+void Swap(struct List *list){
+	struct Person *temp;
+	if (list->current == list->head);
+	{
+	list->head=list->current->next;
+	}
+	temp = list->current->next;
+	list->current->next = list->current->next->next;
+	temp->next=list->current;
+}
+void Sort(struct List *list){
+	int i,j,k;
+	printf("\nPlease choose one of the following sorts\n");
+	printf("1. name:\n");
+	printf("2. age:\nOptions: ");
+	scanf("%d",&i);
+	ListHead(list);
+	for (j=0;j<list->count-2;j++)
+		{
+		for (k=0;k<list->count-j-2;k++)
+			{
+				if (i == 1)
+				{
+					if (strcmp(list->current->name, list->current->next->name)>0)
+					{
+						Swap(list);
+					}
+				}
+			        else if(i == 2)
+				{
+					if (list->current->age > list->current->next->age)
+					{
+						Swap(list);
+					}
+				}
+				else
+				{
+				printf("please adhere to the options in the the menu");
+				return ;
+				}
+			}
+		}
+}
+
+
+void AddPerson(struct List *list){
+	char tempname[20];
+	int tempage;	
+	printf("Enter Name:");
+	scanf("%s",tempname);
+	printf("Enter Age:");
+	scanf("%d",&tempage);
+	struct Person *tempperson = (struct Person *)malloc(sizeof(struct Person));
+	tempperson->next = NULL;
+	tempperson->id=id;
+	strcpy(tempperson->name,tempname);
+	tempperson->age=tempage;
+	ListInsert(list, tempperson);
+	//free(tempperson);
+	id = id + 1;
+	list->count = list->count + 1;
+}
+
 
 /** main function: Will create and process a linked list
  */
@@ -117,14 +229,16 @@ int main() {
     
 	//using a string here to make sure user enter 
     int option;
+    id=1;
     //switch cases
-    while(option != 5) {
+    while(option != 6) {
         printf("\n\nMain menu:\n\n");
         printf("1. Add a person\n");
         printf("2. Find a person\n");
         printf("3. Remove a person\n");
         printf("4. Print the list\n");
-        printf("5. Exit\n\n");
+	printf("5. Sort the list\n");
+        printf("6. Exit\n\n");
         printf("Select an option: ");
 
         //getting user's option input
@@ -134,20 +248,25 @@ int main() {
         switch(option) {
             case 1 :
                 printf("You selected \"Add a person\"\n");
-                break;            
+               	AddPerson(&list);
+		break;          
             case 2 :
                 printf("You selected \"Find a person\"\n");
-                //AddElement();
+                FindPerson(&list);
                 break;
             case 3 :
                 printf("You selected \"Remove a person\"\n");
-                //RemoveElement();
+                RemovePerson(&list);
                 break;
             case 4 :
                 printf("You selected \"Print the list\"\n");
-                //InsertElement();
+                PrintList(&list);
                 break;
-            case 5 :
+	    case 5:
+		printf("You selected \"Sort the list\"\n");
+		Sort(&list);
+                break;
+            case 6 :
                 printf("Exiting...\n\n\n");
                 //Finalize();
                 break;
