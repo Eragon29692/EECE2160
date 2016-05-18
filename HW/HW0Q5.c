@@ -34,11 +34,8 @@ void printMatrix(int *matrix) {
 void indexTranspose(int matrix[matrixSize]) {
     int i;
     //the idea is to calculate the index of the element to swap
-
     //by calculate the element index into row and column
-
     //the index normally is: index = column + row * matrixSide
-
     //But we trnasposing it by switching it to row + column * matrixSide
     for (i = 0; i < matrixSize; i++) {
         int row = i / matrixSide;
@@ -60,22 +57,16 @@ void indexTranspose(int matrix[matrixSize]) {
 void pointerTranspose(int *matrix) {
     int i;
     //the idea is to calculate the index of the element to swap
-
     //by calculate the element index into row and column
-
     //the index normally is: index = column + row * matrixSide
-
     //But we trnasposing it by switching it to row + column * matrixSide
     for (i = 0; i < matrixSize; i++) {
         int row = i / matrixSide;
         int column = i % matrixSide;
         int index = row + column * matrixSide;
         //since we goes through the whole list
-
         //This if below make sure swapping once for each pair of indexcies
-
         //This is the only part
-
         //where it is different from transpose by index above
         if (index > i) {
             int temp = *(matrix + i);
@@ -100,16 +91,13 @@ int main(void) {
         scanf("%d", matrix + i);
     }
 
-
     //print the matrix
     printMatrix(matrix);
-
 
     //index transpose
     printf("a) Transpose using indexces\n");
     indexTranspose(matrix);
     printMatrix(matrix);
-
 
     //pointer transpose
     printf("b) Transpose using pointer\n");
