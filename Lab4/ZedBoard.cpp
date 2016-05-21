@@ -1,3 +1,8 @@
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <iostream>
 #include "ZedBoard.h"
 using namespace std;
 
