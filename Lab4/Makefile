@@ -1,13 +1,13 @@
-# Student program Makefile 
+# make zedboard
 
-myZedBoard: zedMain.o ZedBoard.o 
-	g++ zedMain.o ZedBoard.o –o myZedBoard	
+myZedBoard: zedMain.o ZedBoard.o
+	g++ zedMain.o ZedBoard.o -o myZedBoard
 
 zedMain.o: zedMain.cpp ZedBoard.h
-	g++ -g –Wall -c zedMain.cpp
+	g++ -g -Wall -c zedMain.cpp
 
 ZedBoard.o: ZedBoard.cpp ZedBoard.h
-	g++ -g –Wall -c ZedBoard.cpp
+	g++ -g -Wall -c ZedBoard.cpp
 
 clean:
 	rm zedMain.o ZedBoard.o myZedBoard
