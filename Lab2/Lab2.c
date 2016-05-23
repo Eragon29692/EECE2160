@@ -185,19 +185,28 @@ void RemovePerson(struct List *list) {
 void Swap(struct List *list) {
     //make temp pointer for swaping
     struct Person *temp;
+    
     //if the current is head, then we need to mark the next as head
     //before swap the current head
     if (list->current == list->head) {
-        list->head=list->current->next;
+        list->head = list->current->next;
     }
+
     //current node is 1st, next of it is 2nd, and next of its next is 3rd
     //temp point to the next node (2nd node)
     temp = list->current->next;
     //point the current node to the (3rd node)
     list->current->next = list->current->next->next;
     //point the (2nd node) to the current node
+    //temp->next=list->current;
+    if (list->previous)
+        list->previous->next = temp; 
     temp->next=list->current;
+    list->previous = temp;
+
 }
+
+
 
 
 //bubble sort the linked list
@@ -213,9 +222,9 @@ void Sort(struct List *list) {
     ListHead(list);
 	
 	//bubble sort
-    for (j=0;j<list->count-2;j++)
+    for (k = 0; k < list->count - 1; k++)
     {
-        for (k=0;k<list->count-j-2;k++)
+        while (list->current->next)
         {
 			//sort by name
             if (i == 1)
@@ -224,6 +233,9 @@ void Sort(struct List *list) {
                 {
                     Swap(list);
                 }
+		else {
+		    ListNext(list);
+		}
             }
 			//sort by age
             else if (i == 2)
@@ -231,6 +243,9 @@ void Sort(struct List *list) {
                 if (list->current->age > list->current->next->age)
                 {
                     Swap(list);
+                }
+		else {
+                    ListNext(list);
                 }
             }
 			//no such type of sorting
@@ -240,6 +255,7 @@ void Sort(struct List *list) {
                 return ;
             }
         }
+	ListHead(list);
     }
 }
 
