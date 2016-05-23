@@ -6,7 +6,7 @@
 
 
 WiimoteAccel::WiimoteAccel() {
-    fd = open("/dev/input/event", O_RDONLY);
+    fd = open("/dev/input/event0", O_RDONLY);
     if (fd == -1) {
         std::cerr << "Error: Could not open event file - forgot sudo?\n";
         exit(1);
