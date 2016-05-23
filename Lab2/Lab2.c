@@ -344,6 +344,7 @@ int main() {
             while (getchar() != '\n');
             break;
         }
+
     }
 
     return 0;
