@@ -249,9 +249,9 @@ void AddPerson(struct List *list) {
     char tempname[20];
     int tempage;
     //promt for name and age
-	printf("Enter Name:");
+	printf("Enter Name: ");
     scanf("%s",tempname);
-    printf("Enter Age:");
+    printf("Enter Age: ");
     scanf("%d",&tempage);
 	
 	//create a new person
