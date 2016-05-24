@@ -34,6 +34,7 @@ private:
     int fd;
     char *pBase;
 public:
+
     /**
     * Initialize general-purpose I/O
                 break;
@@ -66,6 +67,7 @@ public:
             exit(1);
         }
     }
+	
     /**
     * Close general-purpose I/O.
     *
@@ -76,30 +78,27 @@ public:
         munmap(pBase, gpio_size);
         close(fd);
     }
+	
     /**
     * Write a 4-byte value at the specified general-purpose I/O location.
-    *
-    * @param pBase Base address returned by 'mmap'.
     * @parem offset Offset where device is mapped.
     * @param value Value to be written.
     */
     void RegisterWrite(int offset, int value) {
         * (int *) (pBase + offset) = value;
     }
+	
     /**
     * Read a 4-byte value from the specified general-purpose I/O location.
-    *
-    * @param pBase Base address returned by 'mmap'.
     * @param offset Offset where device is mapped.
     * @return Value read.
     */
     int RegisterRead(int offset) {
         return * (int *) (pBase + offset);
     }
+	
     /**
     * Show lower 8 bits of integer value on LEDs
-    *
-    * @param pBase Base address of I/O
     * @param value Value to show on LEDs
     */
     void SetLedNumber(int value)
@@ -113,6 +112,10 @@ public:
         RegisterWrite(gpio_led7_offset, (value / 64) % 2);
         RegisterWrite(gpio_led8_offset, (value / 128) % 2);
     }
+
+    /**
+    * write switch values to leds
+    */
     void switchToLED()
     {
         RegisterWrite(gpio_led1_offset, RegisterRead(gpio_sw1_offset));
@@ -124,6 +127,8 @@ public:
         RegisterWrite(gpio_led7_offset, RegisterRead(gpio_sw7_offset));
         RegisterWrite(gpio_led8_offset, RegisterRead(gpio_sw8_offset));
     }
+	
+	//get the pushed button values
     int PushButtonGet() {
         if (RegisterRead(gpio_pbtnl_offset))
             return 1;
@@ -137,7 +142,9 @@ public:
             return 5;
         return 0;
     }
-    int LedtoInteger()
+	
+	//turn values of the swicth to integer and return it
+    int switchtoInteger()
     {
         return RegisterRead(gpio_sw1_offset) * 1
                + RegisterRead(gpio_sw2_offset) * 2
@@ -158,7 +165,7 @@ int main()
     int pressedButton = 0;
     int previousPressed= 0;
     zedB.switchToLED();
-    value = zedB.LedtoInteger();
+    value = zedB.switchtoInteger();
     while (1)
     {
         pressedButton = zedB.PushButtonGet();
@@ -186,7 +193,7 @@ int main()
                 zedB.SetLedNumber(value);
                 break;
             case 5:
-                value = zedB.LedtoInteger();
+                value = zedB.switchtoInteger();
                 zedB.switchToLED();
                 break;
             default:
