@@ -67,7 +67,7 @@ public:
             exit(1);
         }
     }
-	
+
     /**
     * Close general-purpose I/O.
     *
@@ -78,7 +78,7 @@ public:
         munmap(pBase, gpio_size);
         close(fd);
     }
-	
+
     /**
     * Write a 4-byte value at the specified general-purpose I/O location.
     * @parem offset Offset where device is mapped.
@@ -87,7 +87,7 @@ public:
     void RegisterWrite(int offset, int value) {
         * (int *) (pBase + offset) = value;
     }
-	
+
     /**
     * Read a 4-byte value from the specified general-purpose I/O location.
     * @param offset Offset where device is mapped.
@@ -96,7 +96,7 @@ public:
     int RegisterRead(int offset) {
         return * (int *) (pBase + offset);
     }
-	
+
     /**
     * Show lower 8 bits of integer value on LEDs
     * @param value Value to show on LEDs
@@ -112,8 +112,9 @@ public:
         RegisterWrite(gpio_led7_offset, (value / 64) % 2);
         RegisterWrite(gpio_led8_offset, (value / 128) % 2);
     }
-	
-	//get the pushed button values
+
+
+    //get the pushed button values
     int PushButtonGet() {
         if (RegisterRead(gpio_pbtnl_offset))
             return 1;
@@ -127,8 +128,8 @@ public:
             return 5;
         return 0;
     }
-	
-	//turn values of the swicth to integer and return it
+
+    //turn values of the swicth to integer and return it
     int switchtoInteger()
     {
         return RegisterRead(gpio_sw1_offset) * 1
@@ -146,41 +147,45 @@ int main()
 // Initialize
     ZedBoard zedB;
     int numberOfLED = 8;
-    int value;
+    int value = 0;
     int pressedButton = 0;
     int previousPressed= 0;
+    int tickPerSec = 0;
+	int increasePerTick = 1;
     zedB.switchToLED();
-    value = zedB.switchtoInteger();
+	
     while (1)
     {
         pressedButton = zedB.PushButtonGet();
         if (pressedButton != previousPressed) {
             previousPressed = pressedButton;
-            switch (pressedButton)
-            {
-            case 1:
-                value=value*2;
-                value=value%256;
-                break;
-            case 2:
-                value=value/2;
-                break;
-            case 3:
-                value++;
-                value = value % 256;
-                break;
-            case 4:
-                value--;
-                value=value %256;
-                break;
-            case 5:
-                value = zedB.switchtoInteger();
-                break;
-            default:
-                break;
+            if (tickPerSec) {
+                sleep(1/tickPerSec);
+                switch (pressedButton)
+                {
+                case 1:
+                    increasePerTick = -1;
+                    break;
+                case 2:
+                    increasePerTick = 1;
+                    break;
+                case 3:
+                    tickPerSec++;
+                    break;
+                case 4:
+                    tickPerSec--;
+                    break;
+                case 5:
+                    value = zedB.switchtoInteger();
+                    break;
+                default:
+                    break;
+                }
+				value += increasePerTick;
+				zedB.SetLedNumber(value);
             }
-			zedB.SetLedNumber(value);
         }
     }
     return 0;
+
 }
