@@ -149,8 +149,8 @@ int main()
     int value;
     int pressedButton = 0;
     int previousPressed= 0;
-    zedB.switchToLED();
     value = zedB.switchtoInteger();
+	zedB.SetLedNumber(value);
     while (1)
     {
         pressedButton = zedB.PushButtonGet();
