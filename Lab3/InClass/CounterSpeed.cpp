@@ -165,13 +165,14 @@ int main()
                 break;
             case 5:
                 value = zedB.switchtoInteger();
+                zedB.SetLedNumber(value);
                 break;
             default:
                 break;
             }
         }
         if (tickPerSec) {
-            sleep(1/tickPerSec);
+            usleep(1000000/tickPerSec);
             value += increasePerTick;
             zedB.SetLedNumber(value);
         }
