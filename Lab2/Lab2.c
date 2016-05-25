@@ -184,64 +184,73 @@ void RemovePerson(struct List *list) {
 //this function is used for sorting the linked list using buble sort
 void Swap(struct List *list) {
     //make temp pointer for swaping
-    struct Person *tempA;
-    struct Person *tempB;
-    struct Person *tempC;
-    //current node is 1st, next of it is 2nd, and next of its next is 3rd
-    //temp point to the next node (2nd node)
-    tempA = list->current;
-    tempB = list->current->next;
-    tempC = list->current->next->next;
+    struct Person *temp;
+
     //if the current is head, then we need to mark the next as head
     //before swap the current head
     if (list->current == list->head) {
         list->head = list->current->next;
     }
-    //point the current node to the (3rd node)
+
+    //current node is 1st, next of it is 2nd, and next of its next is 3rd
+    //0th is the node previous to current
+	//temp point to the next node (2nd node)
+    temp = list->current->next;
+    //point the current node 1st to the (3rd node)
     list->current->next = list->current->next->next;
-    //point the (2nd node) to the current node
-    tempA->next=list->current;
+    //connect the 0th node to the 2nd node
+    if (list->previous)
+        list->previous->next = temp;
+	
+	//point the (2nd node) to the current node 1st
+    temp->next=list->current;
+	//point previous pointer to the prviously 2nd node
+    list->previous = temp;
 }
+
+
 
 
 //bubble sort the linked list
 void Sort(struct List *list) {
     int i,j,k;
-	//promt for sort by name or age
+    //promt for sort by name or age
     printf("\nPlease choose one of the following sorts\n");
     printf("1. name:\n");
     printf("2. age:\nOptions: ");
     scanf("%d",&i);
-	
-	//place current pointer at head
+
+    //place current pointer at head
     ListHead(list);
-	
-	//bubble sort
-    for (j=0;j<list->count-1;j++)
+
+    //bubble sort
+    for (k = 0; k < list->count - 1; k++)
     {
-        for (k=0;k<list->count-j-1;k++)
+        while (list->current->next)
         {
-			//sort by name
+            //sort by name
             if (i == 1)
             {
-                if (list->current->next && strcmp(list->current->name, list->current->next->name)>0)
+                if (strcmp(list->current->name, list->current->next->name)>0)
                 {
                     Swap(list);
                 }
-		else 
-		    ListNext(list);
+                else {
+                    ListNext(list);
+                }
             }
-			//sort by age
+            //sort by age
             else if (i == 2)
             {
-                if (list->current->next && list->current->age > list->current->next->age)
+                if (list->current->age > list->current->next->age)
                 {
                     Swap(list);
                 }
-		else 
-		    ListNext(list);
+                else {
+                    ListNext(list);
+                }
             }
-			//no such type of sorting
+            //no such type of sorting
             else
             {
                 printf("please adhere to the options in the the menu");
@@ -258,26 +267,26 @@ void AddPerson(struct List *list) {
     char tempname[20];
     int tempage;
     //promt for name and age
-	printf("Enter Name:");
+    printf("Enter Name: ");
     scanf("%s",tempname);
-    printf("Enter Age:");
+    printf("Enter Age: ");
     scanf("%d",&tempage);
-	
-	//create a new person
+
+    //create a new person
     struct Person *tempperson = (struct Person *)malloc(sizeof(struct Person));
-	
-	//adding info of the new person base on the provided inputs
+
+    //adding info of the new person base on the provided inputs
     tempperson->next = NULL;
     tempperson->id=id;
     strcpy(tempperson->name,tempname);
     tempperson->age=tempage;
-	
-	//insert the person
+
+    //insert the person
     ListInsert(list, tempperson);
-    
-	//increment count
+
+    //increment count
     id = id + 1;
-	//adjusting the count of the list
+    //adjusting the count of the list
     list->count = list->count + 1;
 }
 
@@ -342,4 +351,5 @@ int main() {
 
     return 0;
 } //end main
+
 
