@@ -94,31 +94,33 @@ void Finalize(char *pBase, int fd)
 */
 void SetLedNumber(char *pBase, int value)
 {
-     RegisterWrite(pBase, gpio_led1_offset, value % 2);
-     RegisterWrite(pBase, gpio_led2_offset, (value / 2) % 2);
-     RegisterWrite(pBase, gpio_led3_offset, (value / 4) % 2);
-     RegisterWrite(pBase, gpio_led4_offset, (value / 8) % 2);
-     RegisterWrite(pBase, gpio_led5_offset, (value / 16) % 2);
-     RegisterWrite(pBase, gpio_led6_offset, (value / 32) % 2);
-     RegisterWrite(pBase, gpio_led7_offset, (value / 64) % 2);
-     RegisterWrite(pBase, gpio_led8_offset, (value / 128) % 2);
+    RegisterWrite(pBase, gpio_led1_offset, value % 2);
+    RegisterWrite(pBase, gpio_led2_offset, (value / 2) % 2);
+    RegisterWrite(pBase, gpio_led3_offset, (value / 4) % 2);
+    RegisterWrite(pBase, gpio_led4_offset, (value / 8) % 2);
+    RegisterWrite(pBase, gpio_led5_offset, (value / 16) % 2);
+    RegisterWrite(pBase, gpio_led6_offset, (value / 32) % 2);
+    RegisterWrite(pBase, gpio_led7_offset, (value / 64) % 2);
+    RegisterWrite(pBase, gpio_led8_offset, (value / 128) % 2);
 }
 
-void switchToLED(char *pBase) 
+//write whatever read in the switches to the LEDs
+void switchToLED(char *pBase)
 {
-     RegisterWrite(pBase, gpio_led1_offset, RegisterRead(pBase, gpio_sw1_offset));
-     RegisterWrite(pBase, gpio_led2_offset, RegisterRead(pBase, gpio_sw2_offset));
-     RegisterWrite(pBase, gpio_led3_offset, RegisterRead(pBase, gpio_sw3_offset));
-     RegisterWrite(pBase, gpio_led4_offset, RegisterRead(pBase, gpio_sw4_offset));
-     RegisterWrite(pBase, gpio_led5_offset, RegisterRead(pBase, gpio_sw5_offset));
-     RegisterWrite(pBase, gpio_led6_offset, RegisterRead(pBase, gpio_sw6_offset));
-     RegisterWrite(pBase, gpio_led7_offset, RegisterRead(pBase, gpio_sw7_offset));
-     RegisterWrite(pBase, gpio_led8_offset, RegisterRead(pBase, gpio_sw8_offset));
+    RegisterWrite(pBase, gpio_led1_offset, RegisterRead(pBase, gpio_sw1_offset));
+    RegisterWrite(pBase, gpio_led2_offset, RegisterRead(pBase, gpio_sw2_offset));
+    RegisterWrite(pBase, gpio_led3_offset, RegisterRead(pBase, gpio_sw3_offset));
+    RegisterWrite(pBase, gpio_led4_offset, RegisterRead(pBase, gpio_sw4_offset));
+    RegisterWrite(pBase, gpio_led5_offset, RegisterRead(pBase, gpio_sw5_offset));
+    RegisterWrite(pBase, gpio_led6_offset, RegisterRead(pBase, gpio_sw6_offset));
+    RegisterWrite(pBase, gpio_led7_offset, RegisterRead(pBase, gpio_sw7_offset));
+    RegisterWrite(pBase, gpio_led8_offset, RegisterRead(pBase, gpio_sw8_offset));
 }
 
+//get the input events and return the coresponding button value
 int PushButtonGet(char *pBase) {
     if (RegisterRead(pBase, gpio_pbtnl_offset))
-	return 1;
+        return 1;
     if (RegisterRead(pBase, gpio_pbtnr_offset))
         return 2;
     if (RegisterRead(pBase, gpio_pbtnu_offset))
@@ -126,25 +128,23 @@ int PushButtonGet(char *pBase) {
     if (RegisterRead(pBase, gpio_pbtnd_offset))
         return 4;
     if (RegisterRead(pBase, gpio_pbtnc_offset))
-        return 5;  
+        return 5;
     return 0;
 }
 
+//convert the switches values to integer
 int LedtoInteger(char *pBase)
 {
-  // int result = 0;
+    return RegisterRead(pBase, gpio_sw1_offset) * 1
+           + RegisterRead(pBase, gpio_sw2_offset) * 2
+           + RegisterRead(pBase, gpio_sw3_offset) * 4
+           + RegisterRead(pBase, gpio_sw4_offset) * 8
+           + RegisterRead(pBase, gpio_sw5_offset) * 16
+           + RegisterRead(pBase, gpio_sw6_offset) * 32
+           + RegisterRead(pBase, gpio_sw7_offset) * 64
+           + RegisterRead(pBase, gpio_sw8_offset) * 128;
 
-     
-	return RegisterRead(pBase, gpio_sw1_offset) * 1
-	     + RegisterRead(pBase, gpio_sw2_offset) * 2
-             + RegisterRead(pBase, gpio_sw3_offset) * 4
-             + RegisterRead(pBase, gpio_sw4_offset) * 8
-             + RegisterRead(pBase, gpio_sw5_offset) * 16
-             + RegisterRead(pBase, gpio_sw6_offset) * 32
-             + RegisterRead(pBase, gpio_sw7_offset) * 64
-             + RegisterRead(pBase, gpio_sw8_offset) * 128;
 
-	
 }
 
 //Button Function:
@@ -152,7 +152,7 @@ int LedtoInteger(char *pBase)
 
 int main()
 {
-// Initialize
+    // Initialize
     int numberOfLED = 8;
     int fd;
     int value;
@@ -160,73 +160,61 @@ int main()
     int *buttonState = malloc(sizeof(int) * 5);
     int pressedButton = 0;
     int pressed= 0;
-// Check error
+    // Check error
     if (pBase == MAP_FAILED)
     {
         perror("Mapping I/O memory failed - Did you run with 'sudo'?\n");
         return -1;
     }
-    
-    //value = LedtoInteger(pBase);
+
+    //initialize the board with the switch's value
     switchToLED(pBase);
-  value = LedtoInteger(pBase);
+    value = LedtoInteger(pBase);
 
-    while(1) 
+    while (1)
     {
-	pressedButton = PushButtonGet(pBase);
-	//usleep(400000);
-	if (pressedButton != pressed) {
-	pressed = pressedButton;
-	printf("Pressed is: %d", pressed);
-	//value = LedtoInteger(pBase);
-	switch(pressedButton)
-	{
-		case 1:
-			value=value*2;
-			value=value%256;
-			printf("%d",value);
-			//pressedButton = 0;
-
-			SetLedNumber(pBase,value);
-			break;
-		case 2:
-			value=value/2;
-                        printf("%d",value);
-			//pressedButton = 0;
-
-			SetLedNumber(pBase,value);
-			break;
-		case 3:
-			value++;
-			value = value % 256;
-                        printf("%d",value);
-			//pressedButton = 0;
-	
-			SetLedNumber(pBase,value);
-			break;
-		case 4:
-			value--;
-			value=value %256;
-                        printf("%d",value);
-			//pressedButton = 0;
-			SetLedNumber(pBase,value);
-			break;
-		case 5:
-			value = LedtoInteger(pBase);
-			switchToLED(pBase);
-			//pressedButton = 0;
-
-			break;
-		default:
-			break;
-	} 
-//	pressedButton = 0;	
-	}
-
-    } 
-
-
-
+        //get the pressed button
+        pressedButton = PushButtonGet(pBase);
+        //check for sticky pressed button
+        if (pressedButton != pressed) {
+            //update previous button
+            pressed = pressedButton;
+            //cases for each button
+            switch (pressedButton)
+            {
+            case 1:
+                //shift left
+                value=value*2;
+                value=value%256;
+                SetLedNumber(pBase,value);
+                break;
+            case 2:
+                //shift right
+                value=value/2;
+                SetLedNumber(pBase,value);
+                break;
+            case 3:
+                //increase the value by 1
+                value++;
+                value = value % 256;
+                SetLedNumber(pBase,value);
+                break;
+            case 4:
+                //decrease the value by 1
+                value--;
+                value=value %256;
+                SetLedNumber(pBase,value);
+                break;
+            case 5:
+                //set the LEDs to the value from the switches
+                value = LedtoInteger(pBase);
+                switchToLED(pBase);
+                break;
+            default:
+                break;
+            }
+        }
+    }
     Finalize(pBase, fd);
     return 0;
 }

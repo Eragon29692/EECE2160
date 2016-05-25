@@ -107,40 +107,40 @@ void SetLedNumber(char *pBase, int value)
 * @parem led_index LED index between 0 and 7
 * @param state Turn on (1) or off (0)
 */
-void SetLedState(void *pBase, int led_index, int state) { 
-     //switch cases
-    switch(led_index) {
-        case 0 : 
-	    led_index = gpio_led1_offset;
-	    break;
-	case 1 :
-            led_index = gpio_led2_offset;
-            break;
-        case 2 :
-            led_index = gpio_led3_offset;
-            break;
-        case 3 :
-            led_index = gpio_led4_offset;
-            break;
-        case 4 :
-            led_index = gpio_led5_offset;
-            break;
-        case 5 :
-            led_index = gpio_led6_offset;
-            break;
-        case 6 :
-            led_index = gpio_led7_offset;
-            break;
-        case 7 :
-            led_index = gpio_led8_offset;
-            break;
-	default:
-	    printf("Invalid LED number");
-	    return;
+void SetLedState(void *pBase, int led_index, int state) {
+    //switch cases
+    switch (led_index) {
+    case 0 :
+        led_index = gpio_led1_offset;
+        break;
+    case 1 :
+        led_index = gpio_led2_offset;
+        break;
+    case 2 :
+        led_index = gpio_led3_offset;
+        break;
+    case 3 :
+        led_index = gpio_led4_offset;
+        break;
+    case 4 :
+        led_index = gpio_led5_offset;
+        break;
+    case 5 :
+        led_index = gpio_led6_offset;
+        break;
+    case 6 :
+        led_index = gpio_led7_offset;
+        break;
+    case 7 :
+        led_index = gpio_led8_offset;
+        break;
+    default:
+        printf("Invalid LED number");
+        return;
     }
     if (state != 0 && state != 1) {
-	printf("Invalid state");
-	return;
+        printf("Invalid state");
+        return;
     }
     RegisterWrite(pBase, led_index, state);
 }
@@ -148,34 +148,28 @@ void SetLedState(void *pBase, int led_index, int state) {
 
 int main()
 {
-// Initialize
+    // Initialize
     int fd;
     char *pBase = Initialize(&fd);
-// Check error
+    // Check error
     if (pBase == MAP_FAILED)
     {
         perror("Mapping I/O memory failed - Did you run with 'sudo'?\n");
         return -1;
     }
     int value = 0;
-    int state = 0; 
-    /*
-    printf("Enter a value less than 256: ");
-    scanf("%d", &value);
-    printf("value = %d\n", value);
-// Show the value on the Zedboard LEDs
-    SetLedNumber(pBase, value);
-*/
+    int state = 0;
 
-
-//Controlling individual LED
+    //prompt for user inputs
     printf("\nEnter a LED number (0 -> 7): ");
     scanf("%d", &value);
     printf("Enter the state of the LED (0, 1): ");
     scanf("%d", &state);
+
+    //set the LEDs based on the inputs
     SetLedState(pBase, value, state);
     printf("\n\n");
-// Done
+    // Done
     Finalize(pBase, fd);
     return 0;
 }

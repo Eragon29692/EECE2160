@@ -29,6 +29,7 @@ const int gpio_pbtnr_offset = 0x170; // Offset for right push button
 const int gpio_pbtnu_offset = 0x174; // Offset for up push button
 const int gpio_pbtnd_offset = 0x178; // Offset for down push button
 const int gpio_pbtnc_offset = 0x17C; // Offset for center push button
+
 class ZedBoard {
 private:
     int fd;
@@ -66,6 +67,7 @@ public:
             exit(1);
         }
     }
+	
     /**
     * Close general-purpose I/O.
     *
@@ -76,6 +78,7 @@ public:
         munmap(pBase, gpio_size);
         close(fd);
     }
+	
     /**
     * Write a 4-byte value at the specified general-purpose I/O location.
     * @parem offset Offset where device is mapped.
@@ -84,6 +87,7 @@ public:
     void RegisterWrite(int offset, int value) {
         * (int *) (pBase + offset) = value;
     }
+	
     /**
     * Read a 4-byte value from the specified general-purpose I/O location.
     * @param offset Offset where device is mapped.
@@ -92,6 +96,7 @@ public:
     int RegisterRead(int offset) {
         return * (int *) (pBase + offset);
     }
+	
     /**
     * Show lower 8 bits of integer value on LEDs
     * @param value Value to show on LEDs
@@ -107,7 +112,8 @@ public:
         RegisterWrite(gpio_led7_offset, (value / 64) % 2);
         RegisterWrite(gpio_led8_offset, (value / 128) % 2);
     }
-    //get the pushed button values
+	
+    //get the pushed button values and return it
     int PushButtonGet() {
         if (RegisterRead(gpio_pbtnl_offset))
             return 1;
@@ -121,7 +127,8 @@ public:
             return 5;
         return 0;
     }
-    //turn values of the swicth to integer and return it
+	
+    //turn values of the swicthes to an integer value and return it
     int switchtoInteger()
     {
         return RegisterRead(gpio_sw1_offset) * 1
@@ -134,46 +141,72 @@ public:
                + RegisterRead(gpio_sw8_offset) * 128;
     }
 };
+
+
 int main()
 {
-// Initialize
+    // Initialize the zedboard object
     ZedBoard zedB;
-    int numberOfLED = 8;
+    //the current value indicated by the LEDs in integer
     int value = 0;
+    //the currently pressed button
     int pressedButton = 0;
+    //the button was pressed previously
     int previousPressed= 0;
+    //number of tick per second
     int tickPerSec = 0;
+    //number if unit increased per tick
     int increasePerTick = 1;
+
+    //the idea is to have the LEDs display whatever the integer varialble has
+    //all number operations are on the value variable and then set to the LEDs
+    //using SetLedNumber function
     while (1)
     {
+        //get the pressed button
         pressedButton = zedB.PushButtonGet();
+        //check if the pressed button is the same as the previously pressed
+        //this is to check for the "sticky" button cases
         if (pressedButton != previousPressed) {
+            //update the previously pressed button
             previousPressed = pressedButton;
+            //cases for each buttons
             switch (pressedButton)
             {
             case 1:
+                //decrease 1 unit per tick
                 increasePerTick = -1;
                 break;
             case 2:
+                //increase 1 unit per tick
                 increasePerTick = 1;
                 break;
             case 3:
+                //increase number of tick per second
                 tickPerSec++;
                 break;
             case 4:
+                //decrese number of tick per second
                 tickPerSec--;
                 break;
             case 5:
+                //switch the value to what the switches has
                 value = zedB.switchtoInteger();
+                //set that value to the LEDs
                 zedB.SetLedNumber(value);
                 break;
             default:
                 break;
             }
         }
+        //do nothing if the tickPerSec is 0 to avoid division by 0 in usleep
+        //inside is what to do per tick
         if (tickPerSec) {
+            //a sleep period in each second
             usleep(1000000/tickPerSec);
+            //increase value per tick
             value += increasePerTick;
+            //set the updated value to the LEDs
             zedB.SetLedNumber(value);
         }
     }

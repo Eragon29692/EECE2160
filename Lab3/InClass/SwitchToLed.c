@@ -111,24 +111,26 @@ int main()
     int i;
     char *pBase = Initialize(&fd);
     int *switchState = malloc(sizeof(int) * numberOfLED);
-    
-// Check error
+
+	// Check error
     if (pBase == MAP_FAILED)
     {
         perror("Mapping I/O memory failed - Did you run with 'sudo'?\n");
         return -1;
     }
-    
-    while(1) {
+
+	//while loop to keep the program running
+    while (1) {
+		//write to the LEDs whatever read from the switches
         RegisterWrite(pBase, gpio_led1_offset, RegisterRead(pBase, gpio_sw1_offset));
-	RegisterWrite(pBase, gpio_led2_offset, RegisterRead(pBase, gpio_sw2_offset));
-	RegisterWrite(pBase, gpio_led3_offset, RegisterRead(pBase, gpio_sw3_offset));
-	RegisterWrite(pBase, gpio_led4_offset, RegisterRead(pBase, gpio_sw4_offset));
-	RegisterWrite(pBase, gpio_led5_offset, RegisterRead(pBase, gpio_sw5_offset));
-	RegisterWrite(pBase, gpio_led6_offset, RegisterRead(pBase, gpio_sw6_offset));
-	RegisterWrite(pBase, gpio_led7_offset, RegisterRead(pBase, gpio_sw7_offset));
-	RegisterWrite(pBase, gpio_led8_offset, RegisterRead(pBase, gpio_sw8_offset));
-    }    
+        RegisterWrite(pBase, gpio_led2_offset, RegisterRead(pBase, gpio_sw2_offset));
+        RegisterWrite(pBase, gpio_led3_offset, RegisterRead(pBase, gpio_sw3_offset));
+        RegisterWrite(pBase, gpio_led4_offset, RegisterRead(pBase, gpio_sw4_offset));
+        RegisterWrite(pBase, gpio_led5_offset, RegisterRead(pBase, gpio_sw5_offset));
+        RegisterWrite(pBase, gpio_led6_offset, RegisterRead(pBase, gpio_sw6_offset));
+        RegisterWrite(pBase, gpio_led7_offset, RegisterRead(pBase, gpio_sw7_offset));
+        RegisterWrite(pBase, gpio_led8_offset, RegisterRead(pBase, gpio_sw8_offset));
+    }
 
     Finalize(pBase, fd);
     return 0;

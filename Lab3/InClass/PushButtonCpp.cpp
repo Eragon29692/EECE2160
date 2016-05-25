@@ -29,11 +29,13 @@ const int gpio_pbtnr_offset = 0x170; // Offset for right push button
 const int gpio_pbtnu_offset = 0x174; // Offset for up push button
 const int gpio_pbtnd_offset = 0x178; // Offset for down push button
 const int gpio_pbtnc_offset = 0x17C; // Offset for center push button
+
 class ZedBoard {
 private:
     int fd;
     char *pBase;
 public:
+
 
     /**
     * Initialize general-purpose I/O
@@ -67,7 +69,8 @@ public:
             exit(1);
         }
     }
-	
+
+
     /**
     * Close general-purpose I/O.
     *
@@ -78,7 +81,8 @@ public:
         munmap(pBase, gpio_size);
         close(fd);
     }
-	
+
+
     /**
     * Write a 4-byte value at the specified general-purpose I/O location.
     * @parem offset Offset where device is mapped.
@@ -87,7 +91,8 @@ public:
     void RegisterWrite(int offset, int value) {
         * (int *) (pBase + offset) = value;
     }
-	
+
+
     /**
     * Read a 4-byte value from the specified general-purpose I/O location.
     * @param offset Offset where device is mapped.
@@ -96,7 +101,8 @@ public:
     int RegisterRead(int offset) {
         return * (int *) (pBase + offset);
     }
-	
+
+
     /**
     * Show lower 8 bits of integer value on LEDs
     * @param value Value to show on LEDs
@@ -112,8 +118,10 @@ public:
         RegisterWrite(gpio_led7_offset, (value / 64) % 2);
         RegisterWrite(gpio_led8_offset, (value / 128) % 2);
     }
-	
-	//get the pushed button values
+
+
+
+    //get the pushed button values
     int PushButtonGet() {
         if (RegisterRead(gpio_pbtnl_offset))
             return 1;
@@ -127,8 +135,10 @@ public:
             return 5;
         return 0;
     }
-	
-	//turn values of the swicth to integer and return it
+
+
+
+    //turn values of the swicth to an integer value and return it
     int switchtoInteger()
     {
         return RegisterRead(gpio_sw1_offset) * 1
@@ -143,43 +153,63 @@ public:
 };
 int main()
 {
-// Initialize
+    // Initialize
+    //initialize the zedBoard object
     ZedBoard zedB;
-    int numberOfLED = 8;
+    //the current value that the LED displaying as an integer
     int value;
+    //the button that is being pressed
     int pressedButton = 0;
+    //the button that was pressed before
     int previousPressed= 0;
+    //set the value to the states of the switches
     value = zedB.switchtoInteger();
-	zedB.SetLedNumber(value);
+    //set the LEDs with the coresposding 8 bit number with value
+    zedB.SetLedNumber(value);
+
+    //the idea is to set the LEDs base on the number stored in variable value
+    //all number operation is done on value
+    //then set to the LEDs using SetToLED function
     while (1)
     {
+        //get the currently pressed button
         pressedButton = zedB.PushButtonGet();
+        //check if the currently pressed is not the one that was pressed before
+        //this is to check for the tricky "sticky" button state.
         if (pressedButton != previousPressed) {
             previousPressed = pressedButton;
+            //what to do for each button
             switch (pressedButton)
             {
             case 1:
+                //shift left
                 value=value*2;
+                //this is to make sure the number is less than 256
                 value=value%256;
                 break;
             case 2:
+                //shift right
                 value=value/2;
                 break;
             case 3:
+                //add one
                 value++;
                 value = value % 256;
                 break;
             case 4:
+                //subtract one
                 value--;
                 value=value %256;
                 break;
             case 5:
+                //switch to the value of the switches
                 value = zedB.switchtoInteger();
                 break;
             default:
                 break;
             }
-			zedB.SetLedNumber(value);
+            //set the value base on integer value
+            zedB.SetLedNumber(value);
         }
     }
     return 0;
