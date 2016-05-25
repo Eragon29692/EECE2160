@@ -184,26 +184,19 @@ void RemovePerson(struct List *list) {
 //this function is used for sorting the linked list using buble sort
 void Swap(struct List *list) {
     //make temp pointer for swaping
-    struct Person *tempA;
-    struct Person *tempB;
-    struct Person *tempC;
-    //current node is 1st, next of it is 2nd, and next of its next is 3rd
-    //temp point to the next node (2nd node)
-    tempA = list->current;
-    tempB = list->current->next;
-    tempC = list->current->next->next;
-    printf("%s",tempA->name);
-    printf("%s",tempB->name);
-    printf("%s",tempC->name);
+    struct Person *temp;
     //if the current is head, then we need to mark the next as head
     //before swap the current head
     if (list->current == list->head) {
-        list->head = list->current->next;
+        list->head=list->current->next;
     }
+    //current node is 1st, next of it is 2nd, and next of its next is 3rd
+    //temp point to the next node (2nd node)
+    temp = list->current->next;
     //point the current node to the (3rd node)
     list->current->next = list->current->next->next;
     //point the (2nd node) to the current node
-    tempA->next=list->current;
+    temp->next=list->current;
 }
 
 
@@ -220,29 +213,25 @@ void Sort(struct List *list) {
     ListHead(list);
 	
 	//bubble sort
-    for (j=0;j<list->count-1;j++)
+    for (j=0;j<list->count-2;j++)
     {
-        for (k=0;k<list->count-j-1;k++)
+        for (k=0;k<list->count-j-2;k++)
         {
 			//sort by name
             if (i == 1)
             {
-                if (list->current->next && strcmp(list->current->name, list->current->next->name)>0)
+                if (strcmp(list->current->name, list->current->next->name)>0)
                 {
                     Swap(list);
                 }
-		else 
-		    ListNext(list);
             }
 			//sort by age
             else if (i == 2)
             {
-                if (list->current->next && list->current->age > list->current->next->age)
+                if (list->current->age > list->current->next->age)
                 {
                     Swap(list);
                 }
-		else 
-		    ListNext(list);
             }
 			//no such type of sorting
             else
@@ -251,7 +240,6 @@ void Sort(struct List *list) {
                 return ;
             }
         }
-        ListHead(list);
     }
 }
 
@@ -289,7 +277,7 @@ void AddPerson(struct List *list) {
  */
 int main() {
     struct List list;				// Create the main list
-    ListInitialize(&list);			// Initialize the list
+    ListInitialize(&list + 1);			// Initialize the list
 //*************** PUT THE REST OF YOUR CODE HERE  *****************
 
     //using a string here to make sure user enter
@@ -323,7 +311,9 @@ int main() {
             printf("You selected \"Remove a person\"\n");
             RemovePerson(&list);
             break;
-        case 4 :
+        case 4 :No symbol "person" in current context.
+(gdb) 
+
             printf("You selected \"Print the list\"\n");
             PrintList(&list);
             break;
