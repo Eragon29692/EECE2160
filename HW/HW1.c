@@ -32,48 +32,79 @@ void insert_array( struct CarRecord carRecords[10] ) {
         while (buffer != ',') {
             carRecords[i].make[k] = buffer;
             buffer = fgetc(fp);
-	    k++;
+            k++;
         }
-	carRecords[i].make[k] = '\0';
-	
+        carRecords[i].make[k] = '\0';
+
         buffer = fgetc(fp);
         buffer = fgetc(fp);
-	k = 0;
+        k = 0;
         while (buffer != ',') {
             carRecords[i].model[k] = buffer;
             buffer = fgetc(fp);
-	    k++;
+            k++;
         }
         carRecords[i].model[k] = '\0';
 
         buffer = fgetc(fp);
         fscanf(fp, "%d", &carRecords[i].year);
 
-	buffer = fgetc(fp);
-	buffer = fgetc(fp);
         buffer = fgetc(fp);
-	k = 0;
+        buffer = fgetc(fp);
+        buffer = fgetc(fp);
+        k = 0;
         while ( buffer != '\n' && buffer != EOF) {
             carRecords[i].color[k] = buffer;
             buffer = fgetc(fp);
-	    k++;
+            k++;
         }
-	carRecords[i].color[k] = '\0';
+        carRecords[i].color[k] = '\0';
 
-	if (buffer == EOF) 
-	    break;
+        if (buffer == EOF)
+            break;
 
         i++;
     }
     printf("\nFinished\n");
 }
 
-void print_cars_array( struct CarRecord carRecords[10]) {
+void print_cars_array( struct CarRecord carRecords[10] ) {
     int i;
     printf("\nPrinting car records:\n");
     for (i = 0; i < 10; i++) {
         printf("\nRecord %d:\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
                i + 1, carRecords[i].make, carRecords[i].model, carRecords[i].year, carRecords[i].color);
+    }
+}
+
+void sort_cars_by_year( struct CarRecord carRecords[10] ) {
+    int i, j;
+    for (i = 0; i < 10; i++) {
+        for (j = 1; j < 10 - i; i++) {
+            if (carRecords[j - 1].year > carRecords[j].year) {
+                int tempYear = carRecords[j];
+                carRecords[j] = carRecords[j - 1];
+                carRecords[j - 1] = tempYear;
+            }
+        }
+    }
+}
+
+void print_duplicates( struct CarRecord carRecords[10] ) {
+    int i, j;
+	int dup[10];
+    for (i = 0; i < 10; i++) {
+        for (j = i + 1; j < 10; i++) {
+            if (strcmp(carRecords[i].make, carRecords[j].make)
+                    && strcmp(carRecords[i].model, carRecords[j].model)
+                    && carRecords[i].year == carRecords[j].year
+                    && strcmp(carRecords[i].color, carRecords[j].color)) {
+						
+                printf("\nRecord %d:\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
+                       i + 1, carRecords[i].make, carRecords[i].model, carRecords[i].year, carRecords[i].color);
+
+            }
+        }
     }
 }
 
@@ -120,3 +151,4 @@ int main()
     }
     return 0;
 }
+
