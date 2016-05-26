@@ -30,6 +30,8 @@ void insert_array( struct CarRecord carRecords[10] ) {
     while (fscanf(fp, "%s %s %s %s", carRecords[i].make, carRecords[i].model, temp, carRecords[i].color)
             != EOF) {
         carRecords[i].year = atoi(strncpy(temp, temp, strlen(temp)-1));
+	carRecords[i].make[strlen(carRecords[i].make) - 1] = '\0';
+        carRecords[i].model[strlen(carRecords[i].model) - 1] = '\0';
         i++;
     }
 }
