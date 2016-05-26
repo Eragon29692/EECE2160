@@ -65,7 +65,6 @@ void insert_array( struct CarRecord carRecords[10] ) {
 
         i++;
     }
-    printf("\nFinished\n");
 }
 
 void print_cars_array( struct CarRecord carRecords[10] ) {
@@ -80,11 +79,11 @@ void print_cars_array( struct CarRecord carRecords[10] ) {
 void sort_cars_by_year( struct CarRecord carRecords[10] ) {
     int i, j;
     for (i = 0; i < 10; i++) {
-        for (j = 1; j < 10 - i; i++) {
+        for (j = 1; j < 10 - i; j++) {
             if (carRecords[j - 1].year > carRecords[j].year) {
-                int tempYear = carRecords[j];
+                struct CarRecord temp = carRecords[j];
                 carRecords[j] = carRecords[j - 1];
-                carRecords[j - 1] = tempYear;
+                carRecords[j - 1] = temp;
             }
         }
     }
@@ -92,17 +91,18 @@ void sort_cars_by_year( struct CarRecord carRecords[10] ) {
 
 void print_duplicates( struct CarRecord carRecords[10] ) {
     int i, j;
-	int dup[10];
     for (i = 0; i < 10; i++) {
-        for (j = i + 1; j < 10; i++) {
-            if (strcmp(carRecords[i].make, carRecords[j].make)
-                    && strcmp(carRecords[i].model, carRecords[j].model)
+        for (j = i + 1; j < 10; j++) {
+            if (strcmp(carRecords[i].make, carRecords[j].make) == 0
+                    && strcmp(carRecords[i].model, carRecords[j].model) == 0
                     && carRecords[i].year == carRecords[j].year
-                    && strcmp(carRecords[i].color, carRecords[j].color)) {
+                    && strcmp(carRecords[i].color, carRecords[j].color) == 0) {
 						
                 printf("\nRecord %d:\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
                        i + 1, carRecords[i].make, carRecords[i].model, carRecords[i].year, carRecords[i].color);
-
+                printf("\nRecord %d:\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
+                       j + 1, carRecords[j].make, carRecords[j].model, carRecords[j].year, carRecords[j].color);
+		printf("-----------------------------------");
             }
         }
     }
@@ -134,11 +134,11 @@ int main()
             break;
         case 3 :
             printf("You selected \"Sort the records by year\"\n");
-            //RemovePerson(&list);
+            sort_cars_by_year(carRecords);
             break;
         case 4 :
             printf("You selected \"Print duplicated records\"\n");
-            //PrintList(&list);
+            print_duplicates(carRecords);
             break;
         case 5 :
             printf("Exiting...\n\n\n");
@@ -148,6 +148,7 @@ int main()
             printf("Invalid Option");
             break;
         }
+        printf("\nDone\n\n");
     }
     return 0;
 }
