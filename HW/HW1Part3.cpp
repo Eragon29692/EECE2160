@@ -99,13 +99,14 @@ public:
     }
 
     void sort_cars_by_make() {
+        int i, j;
         for (i = 0; i < 10; i++) {
             for (j = 0; j < 10 - i - 1; j++) {
                 if ((cars + j)->getMake() > (cars + j + 1)->getMake()) {
-                    Car *temp;
-                    temp = cars + j;
+                    Car *temp = new Car();
+		    *temp = *(cars + j);
                     *(cars + j) = *(cars + j + 1);
-                    *(cars + j + 1) = temp;
+                    *(cars + j + 1) = *temp;
                 }
             }
         }
