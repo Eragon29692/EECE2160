@@ -10,63 +10,63 @@
 using namespace std;
 
 
-class Car{
+class Car {
 private:
     string make;
     string model;
     int year;
     string color;
 public:
-    Car()    {
+    Car() {
         make = "";
         model = "";
         year = 0;
         color = "";
     }
 
-    void setFields(string mk, string md, int yr,string cl)    {
+    void setFields(string mk, string md, int yr,string cl) {
         make = mk;
         model = md;
         year = yr;
         color = cl;
     }
 
-    string getMake()    {
+    string getMake() {
         return make;
     }
 
-    string getModel()    {
+    string getModel() {
         return model;
     }
 
-    int getYear()    {
+    int getYear() {
         return year;
     }
 
-    string getColor()    {
+    string getColor() {
         return color;
     }
 };
 
-class CarRecords{
+class CarRecords {
 private:
     int arraySize;
     ifstream infile;
     Car *cars;
 public:
-    CarRecords(int size)    {
+    CarRecords(int size) {
         infile.open("CarRecords.txt");
-        if (!infile)        {
+        if (!infile) {
             cout << "Can't open file CarRecords.txt";
             exit(0);
         }
-        if (size > 10)        {
+        if (size > 10) {
             size = 10;
         }
         cars = new Car[size];
         arraySize = size;
 
-        for (int i = 0; i < arraySize; i++)        {
+        for (int i = 0; i < arraySize; i++) {
             string make;
             string model;
             int year;
@@ -82,29 +82,50 @@ public:
         }
     }
 
-    ~CarRecords()    {
+    ~CarRecords() {
         free(cars);
     }
 
-    void printCarRecords ()    {
+    void printCarRecords () {
         int i;
         cout << "\nPRINTING " << arraySize
              << " RECORDS!---------------------\n";
-        for (i = 0; i < arraySize; i++)        {
+        for (i = 0; i < arraySize; i++) {
             cout << (cars + i)->getMake() << " , "
                  << (cars + i)->getModel() << " , "
                  << (cars + i)->getYear() << " , "
                  << (cars + i)->getColor() << "\n";
         }
     }
+
+    void sort_cars_by_make() {
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 10 - i - 1; j++) {
+                if ((cars + j)->getMake() > (cars + j + 1)->getMake()) {
+                    Car *temp;
+                    temp = cars + j;
+                    *(cars + j) = *(cars + j + 1);
+                    *(cars + j + 1) = temp;
+                }
+            }
+        }
+    }
 };
 
-int main(){
+int main() {
     int numRecs;
     cout << "Number or Records to read? " ;
     cin >> numRecs;
     CarRecords *cr = new CarRecords(numRecs);
     // Print car records
     cr->printCarRecords();
+
+
+
+    // Sort by Make
+    cr->sort_cars_by_make();
+    // Print car records
+    cr->printCarRecords();
 }
+
 
