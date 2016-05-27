@@ -19,7 +19,6 @@ void insert_array( struct CarRecord carRecords[10] ) {
     char buffer;
     char temp[20];
     int i = 0;
-    int k = 0;
     fp = fopen("CarRecords.txt","r"); // read mode
     if ( fp == NULL )
     {
