@@ -24,7 +24,7 @@ class Car {
 			color = "";
 		}
 		
-		setFields(string mk, string md, int yr,string cl) {
+		void setFields(string mk, string md, int yr,string cl) {
 			make = mk;
 			model = md;
 			year = yr;
@@ -67,10 +67,15 @@ class CarRecords {
 			arraySize = size;
 			
 			for (int i = 0; i < arraySize; i++) {
-				infile >> (cars + i)->make;
-				infile >> (cars + i)->model;
-				infile >> (cars + i)->year;
-				infile >> (cars + i)->color;
+				string make;
+				string model;
+				int year;
+				string color;
+				infile >> make;
+				infile >> model;
+				infile >> year;
+				infile >> color;
+				(cars + i)->setFields(make, model, year, color);
 			}
 		}
 		
@@ -79,13 +84,14 @@ class CarRecords {
 		}
 		
 		void printCarRecords () {
+			int i;
 			cout << "PRINTING " << i 
 			<< " RECORDS!---------------------\n";
-			for (int i = 0; i < arraySize; i++) {
-				cout << (cars + i).make << ", "
-				<< (cars + i).model << ", "
-				<< (cars + i).year << ", "
-				<< (cars + i).color << "\n"
+			for (i = 0; i < arraySize; i++) {
+				cout << (cars + i).getMake() << ", "
+				<< (cars + i).getModel() << ", "
+				<< (cars + i).getYear() << ", "
+				<< (cars + i).getColor() << "\n"
 			}
 		}
 };
