@@ -3,6 +3,7 @@
 #include <string.h>
 
 
+
 struct CarRecord
 {
     char make[20];
@@ -11,6 +12,7 @@ struct CarRecord
     char color[20];
     struct CarRecord *next;
 };
+
 
 
 struct List
@@ -29,6 +31,8 @@ struct List
 };
 
 
+
+
 // Give an initial value to all the fields in the list.
 void ListInitialize(struct List *list)
 {
@@ -37,6 +41,8 @@ void ListInitialize(struct List *list)
     list->previous = NULL;
     list->count = 0;
 }
+
+
 
 
 // Move the current position in the list one element forward. If last element
@@ -51,6 +57,8 @@ void ListNext(struct List *list)
 }
 
 
+
+
 // Move the current position to the first element in the list.
 void ListHead(struct List *list)
 {
@@ -59,12 +67,16 @@ void ListHead(struct List *list)
 }
 
 
+
+
 // Get the element at the current position, or NULL if the current position is
 // past-the-end.
 struct CarRecord *ListGet(struct List *list)
 {
     return list->current;
 }
+
+
 
 
 // Insert a person before the element at the current position in the list. If
@@ -85,12 +97,16 @@ void ListInsert(struct List *list, struct CarRecord *car)
 }
 
 
+
+
 //Print the struct
 void PrintCarRecord(struct CarRecord *carRecord)
 {
     printf("\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
            carRecord->make, carRecord->model, carRecord->year, carRecord->color);
 }
+
+
 
 
 // takes the list pointer and uses print person to print each person
@@ -100,7 +116,8 @@ void print_cars_list(struct List *list)
     //start the current form the head pointer
     ListHead(list);
     //move curent pointer through the list and print each Person link
-    while (list->current) {
+    while (list->current)
+    {
         printf("\nRecord %d: ", i + 1);
         PrintCarRecord(ListGet(list));
         ListNext(list);
@@ -111,15 +128,18 @@ void print_cars_list(struct List *list)
 }
 
 
+
 //swap the position of the 2 person node
 //this function is used for sorting the linked list using buble sort
-void Swap(struct List *list) {
+void Swap(struct List *list)
+{
     //make temp pointer for swaping
     struct CarRecord *temp;
 
     //if the current is head, then we need to mark the next as head
     //before swap the current head
-    if (list->current == list->head) {
+    if (list->current == list->head)
+    {
         list->head = list->current->next;
     }
 
@@ -140,24 +160,24 @@ void Swap(struct List *list) {
 }
 
 
+
 //bubble sort the linked list
-void sort_cars_by_color(struct List *list) {
-    int i,j;
+void sort_cars_by_color(struct List *list)
+{
+    int i;
     //place current pointer at head
     ListHead(list);
     //bubble sort
-    for (j=0;j<list->count-1;j++)
+    for (i=0;i<list->count-1;i++)
     {
         while (list->current->next)
         {
-            //printf("sorting");
-            //sort by name
             if (strcmp(list->current->color, list->current->next->color)>0)
             {
-                //printf("swap");
                 Swap(list);
             }
-            else {
+            else
+            {
                 ListNext(list);
             }
         }
@@ -165,8 +185,10 @@ void sort_cars_by_color(struct List *list) {
     }
 }
 
+
 //Add a person the the linked list
-void insert_linkedList(struct List *list) {
+void insert_linkedList(struct List *list)
+{
     printf("\nInserting Records from CarRecords.txt...\n");
     FILE *fp;
     char buffer;
@@ -178,7 +200,8 @@ void insert_linkedList(struct List *list) {
         perror("Error while opening the file.\n");
         exit(EXIT_FAILURE);
     }
-    for (; i < 10; i++) {
+    for (; i < 10; i++)
+    {
         struct CarRecord *car = (struct CarRecord *)malloc(sizeof(struct CarRecord));
         fscanf(fp, "%s %s %s %s", car->make, car->model, temp, car->color);
         car->year = atoi(strncpy(temp, temp, strlen(temp)-1));
@@ -193,12 +216,45 @@ void insert_linkedList(struct List *list) {
 }
 
 
+
+//print_duplicates
+
+void print_duplicates(struct List *list)
+{
+    int i;
+    struct CarRecord *cursor = list->head->next;
+    //place current pointer at head
+    ListHead(list);
+    //bubble sort
+    for (i=0;i<list->count-1;i++)
+    {
+        while (cursor->next)
+        {
+            if (strcmp(list->current->make, cursor->make)>0
+                    && strcmp(list->current->model, cursor->model)>0
+                    && list->current->year == cursor->year
+                    && strcmp(list->current->color, cursor->color)>0)
+            {
+                PrintCarRecord(list->curent);
+                PrintCarRecord(list->cursor);
+            }
+            cursor = cursor->next;
+        }
+        ListNext(list);
+        cursor = list->curent->next;
+    }
+}
+
+
+
+
 int main()
 {
     int option;
     struct List list;				// Create the main list
     ListInitialize(&list);			// Initialize the list
-    while (option != 5) {
+    while (option != 5)
+    {
         printf("\n\nMENU - Select an option:\n\n");
         printf("1. Print the cars array\n");
         printf("2. Insert car records into a sorted array\n");
@@ -209,7 +265,8 @@ int main()
         //getting user's option input
         scanf("%d", &option);
         //switch cases
-        switch (option) {
+        switch (option)
+        {
         case 1 :
             printf("You selected \"Print the car records\"\n");
             print_cars_list(&list);
