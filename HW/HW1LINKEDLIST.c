@@ -189,13 +189,16 @@ void sort_cars_by_color(struct List *list)
 //Add a person the the linked list
 void insert_linkedList(struct List *list)
 {
+
 	ListHead(list);
 	ListNext(list);
 	while (list->current) {
 		free(list->previous);
 		ListNext(list);
 	}
-	free(list->curent);
+	free(list->current);
+	
+	ListInitialize(list);
 	
     printf("\nInserting Records from CarRecords.txt...\n");
     FILE *fp;
@@ -236,7 +239,7 @@ void print_duplicates(struct List *list)
     //bubble sort
     for (i=0;i<list->count-1;i++)
     {
-        while (cursor->next)
+        while (cursor)
         {
             if (strcmp(list->current->make, cursor->make)==0
                     && strcmp(list->current->model, cursor->model)==0
