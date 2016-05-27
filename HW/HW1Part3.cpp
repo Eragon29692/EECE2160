@@ -39,8 +39,8 @@ class Car {
 			return model;
 		}
 		
-		string getYear() {
-			return to_string(year);
+		int getYear() {
+			return year;
 		}
 		
 		string getColor() {
@@ -51,7 +51,7 @@ class Car {
 class CarRecords {
 	private:
 		int arraySize;
-		ifsteam infile;
+		ifstream infile;
 		Car *cars;
 	public:
 		CarRecords(int size) {
@@ -67,10 +67,10 @@ class CarRecords {
 			arraySize = size;
 			
 			for (int i = 0; i < arraySize; i++) {
-				infile >> *(cars + i)->make;
-				infile >> *(cars + i)->model;
-				infile >> *(cars + i)->year;
-				infile >> *(cars + i)->color;
+				infile >> (cars + i)->make;
+				infile >> (cars + i)->model;
+				infile >> (cars + i)->year;
+				infile >> (cars + i)->color;
 			}
 		}
 		
@@ -82,10 +82,10 @@ class CarRecords {
 			cout << "PRINTING " << i 
 			<< " RECORDS!---------------------\n";
 			for (int i = 0; i < arraySize; i++) {
-				cout << *(cars + i).make << ", "
-				<< *(cars + i).model << ", "
-				<< *(cars + i).year << ", "
-				<< *(cars + i).color << "\n"
+				cout << (cars + i).make << ", "
+				<< (cars + i).model << ", "
+				<< (cars + i).year << ", "
+				<< (cars + i).color << "\n"
 			}
 		}
 };
