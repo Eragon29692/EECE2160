@@ -189,6 +189,14 @@ void sort_cars_by_color(struct List *list)
 //Add a person the the linked list
 void insert_linkedList(struct List *list)
 {
+	ListHead(list);
+	ListNext(list);
+	while (list->current) {
+		free(list->previous);
+		ListNext(list);
+	}
+	free(list->curent);
+	
     printf("\nInserting Records from CarRecords.txt...\n");
     FILE *fp;
     char buffer;
@@ -256,9 +264,9 @@ int main()
     while (option != 5)
     {
         printf("\n\nMENU - Select an option:\n\n");
-        printf("1. Print the cars array\n");
-        printf("2. Insert car records into a sorted array\n");
-        printf("3. Sort cars by year\n");
+        printf("1. Print the cars list\n");
+        printf("2. Insert car records into a sorted list\n");
+        printf("3. Sort cars by color\n");
         printf("4. Print duplicates\n");
         printf("5. Exit\n\n");
         printf("Select an option: ");
