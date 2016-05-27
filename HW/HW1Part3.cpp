@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <sys/mman.h>
+#include <fstream>
+#include <string>
+
 using namespace std;
 
 
@@ -18,7 +21,7 @@ class Car {
 			make = "";
 			model = "";
 			year = 0;
-			color = ""
+			color = "";
 		}
 		
 		setFields(string mk, string md, int yr,string cl) {
@@ -54,7 +57,7 @@ class CarRecords {
 		CarRecords(int size) {
 			infile.open("CarRecords.txt");
 			if (!infile) {
-				cout << "Can't open file CarRecords.txt"
+				cout << "Can't open file CarRecords.txt";
 				exit(0);
 			}
 			if (size > 10) {
@@ -64,10 +67,10 @@ class CarRecords {
 			arraySize = size;
 			
 			for (int i = 0; i < arraySize; i++) {
-				infile >> *(cars + i).make;
-				infile >> *(cars + i).model;
-				infile >> *(cars + i).year;
-				infile >> *(cars + i).color;
+				infile >> *(cars + i)->make;
+				infile >> *(cars + i)->model;
+				infile >> *(cars + i)->year;
+				infile >> *(cars + i)->color;
 			}
 		}
 		
