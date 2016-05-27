@@ -10,97 +10,98 @@
 using namespace std;
 
 
-class Car {
-	private:
-		string make;
-		string model;
-		int year;
-		string color;
-	public:
-		Car() {
-			make = "";
-			model = "";
-			year = 0;
-			color = "";
-		}
-		
-		void setFields(string mk, string md, int yr,string cl) {
-			make = mk;
-			model = md;
-			year = yr;
-			color = cl;
-		}
-		
-		string getMake() {
-			return make;
-		}
-		
-		string getModel() {
-			return model;
-		}
-		
-		int getYear() {
-			return year;
-		}
-		
-		string getColor() {
-			return color;
-		}	
+class Car{
+private:
+    string make;
+    string model;
+    int year;
+    string color;
+public:
+    Car()    {
+        make = "";
+        model = "";
+        year = 0;
+        color = "";
+    }
+
+    void setFields(string mk, string md, int yr,string cl)    {
+        make = mk;
+        model = md;
+        year = yr;
+        color = cl;
+    }
+
+    string getMake()    {
+        return make;
+    }
+
+    string getModel()    {
+        return model;
+    }
+
+    int getYear()    {
+        return year;
+    }
+
+    string getColor()    {
+        return color;
+    }
 };
 
-class CarRecords {
-	private:
-		int arraySize;
-		ifstream infile;
-		Car *cars;
-	public:
-		CarRecords(int size) {
-			infile.open("CarRecords.txt");
-			if (!infile) {
-				cout << "Can't open file CarRecords.txt";
-				exit(0);
-			}
-			if (size > 10) {
-				size = 10;
-			}
-			cars = new Car[size];
-			arraySize = size;
-			
-			for (int i = 0; i < arraySize; i++) {
-				string make;
-				string model;
-				int year;
-				string color;
-				infile >> make;
-				infile >> model;
-				infile >> year;
-				infile >> color;
-				(cars + i)->setFields(make, model, year, color);
-			}
-		}
-		
-		~CarRecords() {
-			free(cars);
-		}
-		
-		void printCarRecords () {
-			int i;
-			cout << "PRINTING " << i 
-			<< " RECORDS!---------------------\n";
-			for (i = 0; i < arraySize; i++) {
-				cout << (cars + i)->getMake() << ", "
-				<< (cars + i)->getModel() << ", "
-				<< (cars + i)->getYear() << ", "
-				<< (cars + i)->getColor() << "\n"
-			}
-		}
+class CarRecords{
+private:
+    int arraySize;
+    ifstream infile;
+    Car *cars;
+public:
+    CarRecords(int size)    {
+        infile.open("CarRecords.txt");
+        if (!infile)        {
+            cout << "Can't open file CarRecords.txt";
+            exit(0);
+        }
+        if (size > 10)        {
+            size = 10;
+        }
+        cars = new Car[size];
+        arraySize = size;
+
+        for (int i = 0; i < arraySize; i++)        {
+            string make;
+            string model;
+            int year;
+            string color;
+            infile >> make;
+            infile >> model;
+            infile >> year;
+            infile >> color;
+            (cars + i)->setFields(make, model, year, color);
+        }
+    }
+
+    ~CarRecords()    {
+        free(cars);
+    }
+
+    void printCarRecords ()    {
+        int i;
+        cout << "PRINTING " << i
+             << " RECORDS!---------------------\n";
+        for (i = 0; i < arraySize; i++)        {
+            cout << (cars + i)->getMake() << ", "
+                 << (cars + i)->getModel() << ", "
+                 << (cars + i)->getYear() << ", "
+                 << (cars + i)->getColor() << "\n";
+        }
+    }
 };
 
-int main() {
-	int numRecs;
-	cout << "Number or Records to read? " ;
-	cin >> numRecs;
-	CarRecords *cr = new CarRecords(numRecs); 
-	// Print car records
-	cr->printCarRecords();
+int main(){
+    int numRecs;
+    cout << "Number or Records to read? " ;
+    cin >> numRecs;
+    CarRecords *cr = new CarRecords(numRecs);
+    // Print car records
+    cr->printCarRecords();
 }
+
