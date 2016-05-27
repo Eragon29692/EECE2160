@@ -72,8 +72,11 @@ public:
             int year;
             string color;
             infile >> make;
+            make.erase(make.size() - 1);
             infile >> model;
+            model.erase(model.size() - 1);
             infile >> year;
+            infile >> color;
             infile >> color;
             (cars + i)->setFields(make, model, year, color);
         }
@@ -85,12 +88,12 @@ public:
 
     void printCarRecords ()    {
         int i;
-        cout << "PRINTING " << i
+        cout << "\nPRINTING " << arraySize
              << " RECORDS!---------------------\n";
         for (i = 0; i < arraySize; i++)        {
-            cout << (cars + i)->getMake() << ", "
-                 << (cars + i)->getModel() << ", "
-                 << (cars + i)->getYear() << ", "
+            cout << (cars + i)->getMake() << " , "
+                 << (cars + i)->getModel() << " , "
+                 << (cars + i)->getYear() << " , "
                  << (cars + i)->getColor() << "\n";
         }
     }
