@@ -217,8 +217,8 @@ void insert_linkedList(struct List *list)
 
 
 
-//print_duplicates
 
+//print_duplicates
 void print_duplicates(struct List *list)
 {
     int i;
@@ -230,18 +230,18 @@ void print_duplicates(struct List *list)
     {
         while (cursor->next)
         {
-            if (strcmp(list->current->make, cursor->make)>0
-                    && strcmp(list->current->model, cursor->model)>0
+            if (strcmp(list->current->make, cursor->make)==0
+                    && strcmp(list->current->model, cursor->model)==0
                     && list->current->year == cursor->year
-                    && strcmp(list->current->color, cursor->color)>0)
+                    && strcmp(list->current->color, cursor->color)==0)
             {
-                PrintCarRecord(list->curent);
-                PrintCarRecord(list->cursor);
+                PrintCarRecord(list->current);
+                PrintCarRecord(cursor);
             }
             cursor = cursor->next;
         }
         ListNext(list);
-        cursor = list->curent->next;
+        cursor = list->current->next;
     }
 }
 
@@ -281,7 +281,7 @@ int main()
             break;
         case 4 :
             printf("You selected \"Print duplicated records\"\n");
-            //print_duplicates(carRecords);
+            print_duplicates(&list);
             break;
         case 5 :
             printf("Exiting...\n\n\n");
