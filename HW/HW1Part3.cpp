@@ -88,10 +88,10 @@ class CarRecords {
 			cout << "PRINTING " << i 
 			<< " RECORDS!---------------------\n";
 			for (i = 0; i < arraySize; i++) {
-				cout << (cars + i).getMake() << ", "
-				<< (cars + i).getModel() << ", "
-				<< (cars + i).getYear() << ", "
-				<< (cars + i).getColor() << "\n"
+				cout << (cars + i)->getMake() << ", "
+				<< (cars + i)->getModel() << ", "
+				<< (cars + i)->getYear() << ", "
+				<< (cars + i)->getColor() << "\n"
 			}
 		}
 };
