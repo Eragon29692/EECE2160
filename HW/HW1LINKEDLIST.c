@@ -8,7 +8,9 @@ struct CarRecord
     char model[20];
     int year;
     char color[20];
+    struct CarRecord *next;
 };
+
 struct List
 {
     // First person in the list. A value equal to NULL indicates that the
@@ -69,11 +71,11 @@ void ListInsert(struct List *list, struct CarRecord *car)
     // Set the current element to the new person
     list->current = car;
 }
-//Print the person struct
-void PrintCarRecord(struct CarRecord *car)
+//Print the struct
+void PrintCarRecord(struct CarRecord *carRecord)
 {
     printf("\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
-           carRecords->make, carRecords->model, carRecords->year, carRecords->color);
+           carRecord->make, carRecord->model, carRecord->year, carRecord->color);
 }
 // takes the list pointer and uses print person to print each person
 void print_cars_list(struct List *list)
@@ -106,6 +108,7 @@ void Swap(struct List *list) {
     temp = list->current->next;
     //point the current node to the (3rd node)
     list->current->next = list->current->next->next;
+
     //point the (2nd node) to the current node
     temp->next=list->current;
 }
@@ -115,16 +118,22 @@ void sort_cars_by_color(struct List *list) {
     //place current pointer at head
     ListHead(list);
     //bubble sort
-    for (j=0;j<list->count-2;j++)
+    for (j=0;j<list->count-1;j++)
     {
-        for (k=0;k<list->count-j-2;k++)
+        while(list->current->next)
         {
+	    //printf("sorting");
             //sort by name
             if (strcmp(list->current->color, list->current->next->color)>0)
             {
+		//printf("swap");
                 Swap(list);
             }
+	    else {
+		ListNext(list);
+	    }
         }
+	ListHead(list);
     }
 }
 //Add a person the the linked list
@@ -141,7 +150,7 @@ void insert_linkedList(struct List *list) {
         exit(EXIT_FAILURE);
     }
     for (; i < 10; i++) {
-        CarRecord *car = (CarRecord *)malloc(sizeof(CarRecord));
+        struct CarRecord *car = (struct CarRecord *)malloc(sizeof(struct CarRecord));
         fscanf(fp, "%s %s %s %s", car->make, car->model, temp, car->color);
         car->year = atoi(strncpy(temp, temp, strlen(temp)-1));
         car->make[strlen(car->make) - 1] = '\0';
@@ -172,15 +181,15 @@ int main()
         switch (option) {
         case 1 :
             printf("You selected \"Print the car records\"\n");
-            print_cars_list(carRecords);
+            print_cars_list(&list);
             break;
         case 2 :
             printf("You selected \"Insert the records from file\"\n");
-            insert_linkedList(carRecords);
+            insert_linkedList(&list);
             break;
         case 3 :
             printf("You selected \"Sort the records by year\"\n");
-            sort_cars_by_color(carRecords);
+            sort_cars_by_color(&list);
             break;
         case 4 :
             printf("You selected \"Print duplicated records\"\n");
