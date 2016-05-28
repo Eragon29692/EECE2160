@@ -83,7 +83,8 @@ public:
     }
 
     ~CarRecords() {
-        free(cars);
+        infile.close();
+        delete [] cars;
     }
 
 
@@ -106,8 +107,9 @@ public:
 
     void sort_cars_by_make() {
         int i, j;
-        for (i = 0; i < 10; i++) {
-            for (j = 0; j < 10 - i - 1; j++) {
+        cout << "\n\nSORT CAR BY MAKE...\n";
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize - i - 1; j++) {
                 if ((cars + j)->getMake() > (cars + j + 1)->getMake()) {
                     Car *temp = new Car();
                     *temp = *(cars + j);
@@ -122,8 +124,9 @@ public:
 
     void sort_cars_by_year() {
         int i, j;
-        for (i = 0; i < 10; i++) {
-            for (j = 0; j < 10 - i - 1; j++) {
+        cout << "\n\nSORT CAR BY YEAR...\n";
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize - i - 1; j++) {
                 if ((cars + j)->getYear() > (cars + j + 1)->getYear()) {
                     Car *temp = new Car();
                     *temp = *(cars + j);
@@ -137,8 +140,9 @@ public:
 
     void print_duplicates() {
         int i, j;
-        for (i = 0; i < 10; i++) {
-            for (j = i + 1; j < 10; j++) {
+        cout << "\n\nCHECKING FOR DUPLICATES...\n";
+        for (i = 0; i < arraySize; i++) {
+            for (j = i + 1; j < arraySize; j++) {
                 if ((cars + i)->getMake() == (cars + j)->getMake()
                         && (cars + i)->getModel() == (cars + j)->getModel()
                         && (cars + i)->getYear() == (cars + j)->getYear()
@@ -148,13 +152,14 @@ public:
                 }
             }
         }
+        cout << "\nDone\n\n";
     }
 	
 };
 
 int main() {
     int numRecs;
-    cout << "Number or Records to read? " ;
+    cout << "\n\nNumber or Records to read? " ;
     cin >> numRecs;
     CarRecords *cr = new CarRecords(numRecs);
 
