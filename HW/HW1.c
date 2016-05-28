@@ -27,42 +27,9 @@ void insert_array( struct CarRecord carRecords[10] ) {
         exit(EXIT_FAILURE);
     }
 
-    while ((buffer = fgetc(fp)) != EOF) {
-        k = 0;
-        while (buffer != ',') {
-            carRecords[i].make[k] = buffer;
-            buffer = fgetc(fp);
-            k++;
-        }
-        carRecords[i].make[k] = '\0';
-
-        buffer = fgetc(fp);
-        buffer = fgetc(fp);
-        k = 0;
-        while (buffer != ',') {
-            carRecords[i].model[k] = buffer;
-            buffer = fgetc(fp);
-            k++;
-        }
-        carRecords[i].model[k] = '\0';
-
-        buffer = fgetc(fp);
-        fscanf(fp, "%d", &carRecords[i].year);
-
-        buffer = fgetc(fp);
-        buffer = fgetc(fp);
-        buffer = fgetc(fp);
-        k = 0;
-        while ( buffer != '\n' && buffer != EOF) {
-            carRecords[i].color[k] = buffer;
-            buffer = fgetc(fp);
-            k++;
-        }
-        carRecords[i].color[k] = '\0';
-
-        if (buffer == EOF)
-            break;
-
+    while (fscanf(fp, "%s %s %s %s", carRecords[i].make, carRecords[i].model, temp, carRecords[i].color)
+            != EOF) {
+        carRecords[i].year = atoi(strncpy(temp, temp, strlen(temp)-1));
         i++;
     }
 }

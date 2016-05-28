@@ -89,7 +89,7 @@ void print_duplicates( struct CarRecord carRecords[10] ) {
                        carRecords[i].model, carRecords[i].year, carRecords[i].color);
                 printf("Record %d:\tMake: %s,\tModel: %10s,\tYear: %d,\tColor: %s\n", j + 1, carRecords[j].make,
                        carRecords[j].model, carRecords[j].year, carRecords[j].color);
-                printf("-----------------------------------");
+                printf("-----------------------------------\n");
             }
         }
     }

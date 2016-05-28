@@ -313,7 +313,7 @@ int main()
             insert_linkedList(&list);
             break;
         case 3 :
-            printf("You selected \"Sort the records by year\"\n");
+            printf("You selected \"Sort the records by color\"\n");
             sort_cars_by_color(&list);
             break;
         case 4 :
