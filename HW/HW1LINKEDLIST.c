@@ -102,7 +102,7 @@ void ListInsert(struct List *list, struct CarRecord *car)
 //Print the struct
 void PrintCarRecord(struct CarRecord *carRecord)
 {
-    printf("\tMake: %s,\tModel: %s,\tYear: %d,\tColor: %s\n",
+    printf("\tMake: %s,\tModel: %s,\t\tYear: %d,\tColor: %s\n",
            carRecord->make, carRecord->model,
            carRecord->year, carRecord->color);
 }

@@ -48,7 +48,7 @@ void print_cars_array( struct CarRecord carRecords[10] ) {
     printf("\nPrinting car records:\n");
     //print all the records one by one
     for (i = 0; i < 10; i++) {
-        printf("\nRecord %d:\tMake: %s,\tModel: %s,\tYear: %d,\tColor: %s\n",
+        printf("Record %d:\tMake: %s,\tModel: %s,\t\tYear: %d,\tColor: %s\n",
                i + 1, carRecords[i].make, carRecords[i].model, carRecords[i].year, carRecords[i].color);
     }
 }
@@ -85,9 +85,9 @@ void print_duplicates( struct CarRecord carRecords[10] ) {
                     && carRecords[i].year == carRecords[j].year
                     && strcmp(carRecords[i].color, carRecords[j].color) == 0) {
                 //then print them both
-                printf("\nRecord %d:\tMake: %s,\tModel: %s,\tYear: %d,\tColor: %s\n", i + 1, carRecords[i].make,
+                printf("Record %d:\tMake: %s,\tModel: %s,\t\tYear: %d,\tColor: %s\n", i + 1, carRecords[i].make,
                        carRecords[i].model, carRecords[i].year, carRecords[i].color);
-                printf("\nRecord %d:\tMake: %s,\tModel: %s,\tYear: %d,\tColor: %s\n", j + 1, carRecords[j].make,
+                printf("Record %d:\tMake: %s,\tModel: %s,\t\tYear: %d,\tColor: %s\n", j + 1, carRecords[j].make,
                        carRecords[j].model, carRecords[j].year, carRecords[j].color);
                 printf("-----------------------------------");
             }
