@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-
+//struct CarRecord
 struct CarRecord
 {
     char make[20];
@@ -14,13 +14,13 @@ struct CarRecord
 };
 
 
-
+//struct List
 struct List
 {
-    // First person in the list. A value equal to NULL indicates that the
+    // First car in the list. A value equal to NULL indicates that the
     // list is empty.
     struct CarRecord *head;
-    // Current person in the list. A value equal to NULL indicates a
+    // Current car in the list. A value equal to NULL indicates a
     // past-the-end position.
     struct CarRecord *current;
     // Pointer to the element appearing before 'current'. It can be NULL if
@@ -79,9 +79,9 @@ struct CarRecord *ListGet(struct List *list)
 
 
 
-// Insert a person before the element at the current position in the list. If
-// the current position is past-the-end, the person is inserted at the end of
-// the list. The new person is made the new current element in the list.
+// Insert a car before the element at the current position in the list. If
+// the current position is past-the-end, the car is inserted at the end of
+// the list. The new car is made the new current element in the list.
 void ListInsert(struct List *list, struct CarRecord *car)
 {
     // Set 'next' pointer of current element
@@ -92,7 +92,7 @@ void ListInsert(struct List *list, struct CarRecord *car)
         list->head = car;
     else
         list->previous->next = car;
-    // Set the current element to the new person
+    // Set the current element to the new car
     list->current = car;
 }
 
@@ -102,8 +102,9 @@ void ListInsert(struct List *list, struct CarRecord *car)
 //Print the struct
 void PrintCarRecord(struct CarRecord *carRecord)
 {
-    printf("\n\tMake: %s,\n\tModel: %s,\n\tYear: %d,\n\tColor: %s\n",
-           carRecord->make, carRecord->model, carRecord->year, carRecord->color);
+    printf("\tMake: %s,\tModel: %s,\tYear: %d,\tColor: %s\n",
+           carRecord->make, carRecord->model,
+           carRecord->year, carRecord->color);
 }
 
 
@@ -119,7 +120,9 @@ void print_cars_list(struct List *list)
     while (list->current)
     {
         printf("\nRecord %d: ", i + 1);
+        //print the car record at list->current
         PrintCarRecord(ListGet(list));
+        //move list current to the next record
         ListNext(list);
         i++;
     }
@@ -172,52 +175,69 @@ void sort_cars_by_color(struct List *list)
     {
         while (list->current->next)
         {
+            //compare the 2 colors
             if (strcmp(list->current->color, list->current->next->color)>0)
             {
+                //swap
                 Swap(list);
             }
             else
             {
+                //if can't swap then move to the next node
+                //and continute comparing
                 ListNext(list);
             }
         }
+        //return to the head to compare again
         ListHead(list);
     }
 }
 
 
-//Add a person the the linked list
+//Add a car to the linked list
 void insert_linkedList(struct List *list)
 {
+    //freeing the old memory everytime inserting is called
+    //starting with the head, then move along the list
+    ListHead(list);
+    ListNext(list);
+    //remove the previous until reach the end
+    while (list->current) {
+        free(list->previous);
+        ListNext(list);
+    }
+    //free the last one
+    free(list->current);
 
-	ListHead(list);
-	ListNext(list);
-	while (list->current) {
-		free(list->previous);
-		ListNext(list);
-	}
-	free(list->current);
-	
-	ListInitialize(list);
-	
+    //initialize the new list
+    ListInitialize(list);
+
     printf("\nInserting Records from CarRecords.txt...\n");
     FILE *fp;
-    char buffer;
     char temp[20];
     int i = 0;
+    //reading from file
     fp = fopen("CarRecords.txt","r"); // read mode
+    //check for openning file error
     if ( fp == NULL )
     {
         perror("Error while opening the file.\n");
         exit(EXIT_FAILURE);
     }
+    //inserting from file to struct one by one
     for (; i < 10; i++)
     {
+        //make a new car's record
         struct CarRecord *car = (struct CarRecord *)malloc(sizeof(struct CarRecord));
+        //inserting from file to varialbles
         fscanf(fp, "%s %s %s %s", car->make, car->model, temp, car->color);
+        //convert year from string to integer
         car->year = atoi(strncpy(temp, temp, strlen(temp)-1));
+        //remove the last ending comma in make
         car->make[strlen(car->make) - 1] = '\0';
+        //remove the last ending comma in model
         car->model[strlen(car->model) - 1] = '\0';
+        //set up the car pointers
         car->next = NULL;
         //insert the car
         ListInsert(list, car);
@@ -236,22 +256,28 @@ void print_duplicates(struct List *list)
     struct CarRecord *cursor = list->head->next;
     //place current pointer at head
     ListHead(list);
-    //bubble sort
+    //compare the current car with the rest of the list behind
+    //which cursor is being used to point to the comparing target
     for (i=0;i<list->count-1;i++)
     {
         while (cursor)
         {
+            //compare the 2 cars
             if (strcmp(list->current->make, cursor->make)==0
                     && strcmp(list->current->model, cursor->model)==0
                     && list->current->year == cursor->year
                     && strcmp(list->current->color, cursor->color)==0)
             {
+                //then print them both if the same
                 PrintCarRecord(list->current);
                 PrintCarRecord(cursor);
             }
+            //check the next one
             cursor = cursor->next;
         }
+        //move the current pointer
         ListNext(list);
+        //move the cursor
         cursor = list->current->next;
     }
 }
@@ -306,4 +332,5 @@ int main()
     }
     return 0;
 }
+
 
