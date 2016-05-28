@@ -119,7 +119,7 @@ void print_cars_list(struct List *list)
     //move curent pointer through the list and print each Person link
     while (list->current)
     {
-        printf("\nRecord %d: ", i + 1);
+        printf("Record %d: ", i + 1);
         //print the car record at list->current
         PrintCarRecord(ListGet(list));
         //move list current to the next record
