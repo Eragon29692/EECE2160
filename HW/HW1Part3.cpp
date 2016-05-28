@@ -86,15 +86,21 @@ public:
         free(cars);
     }
 
+
+    void printCar(Car *car) {
+        cout << car->getMake() << " , "
+             << car->getModel() << " , "
+             << car->getYear() << " , "
+             << car->getColor() << "\n";
+    }
+
+
     void printCarRecords () {
         int i;
         cout << "\nPRINTING " << arraySize
              << " RECORDS!---------------------\n";
         for (i = 0; i < arraySize; i++) {
-            cout << (cars + i)->getMake() << " , "
-                 << (cars + i)->getModel() << " , "
-                 << (cars + i)->getYear() << " , "
-                 << (cars + i)->getColor() << "\n";
+            printCar(cars + i);
         }
     }
 
@@ -104,13 +110,46 @@ public:
             for (j = 0; j < 10 - i - 1; j++) {
                 if ((cars + j)->getMake() > (cars + j + 1)->getMake()) {
                     Car *temp = new Car();
-		    *temp = *(cars + j);
+                    *temp = *(cars + j);
                     *(cars + j) = *(cars + j + 1);
                     *(cars + j + 1) = *temp;
                 }
             }
         }
     }
+
+
+
+    void sort_cars_by_year() {
+        int i, j;
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 10 - i - 1; j++) {
+                if ((cars + j)->getYear() > (cars + j + 1)->getYear()) {
+                    Car *temp = new Car();
+                    *temp = *(cars + j);
+                    *(cars + j) = *(cars + j + 1);
+                    *(cars + j + 1) = *temp;
+                }
+            }
+        }
+    }
+
+
+    void print_duplicates() {
+        int i, j;
+        for (i = 0; i < 10; i++) {
+            for (j = i + 1; j < 10; j++) {
+                if ((cars + i)->getMake() == (cars + j)->getMake()
+                        && (cars + i)->getModel() == (cars + j)->getModel()
+                        && (cars + i)->getYear() == (cars + j)->getYear()
+                        && (cars + i)->getColor() == (cars + j)->getColor()) {
+                    printCar(cars + i);
+                    printCar(cars + j);
+                }
+            }
+        }
+    }
+	
 };
 
 int main() {
@@ -118,15 +157,24 @@ int main() {
     cout << "Number or Records to read? " ;
     cin >> numRecs;
     CarRecords *cr = new CarRecords(numRecs);
+
+
     // Print car records
     cr->printCarRecords();
-
-
-
+    // Sort by Year
+    cr->sort_cars_by_year();
+    // Print car records
+    cr->printCarRecords();
     // Sort by Make
     cr->sort_cars_by_make();
     // Print car records
     cr->printCarRecords();
+    // Check for Duplicates
+    cr->print_duplicates();
+
+
+    delete cr;
 }
+
 
 
