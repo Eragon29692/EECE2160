@@ -27,17 +27,24 @@ const int gpio_pbtnu_offset = 0x174; // Offset for up push button
 const int gpio_pbtnd_offset = 0x178; // Offset for down push button
 const int gpio_pbtnc_offset = 0x17C; // Offset for center push button
 
-
+//ZedBoard class
 class ZedBoard {
 private:
+    //file descriptor
     int fd;
+    //pointer to the mapped memory
     char *pBase;
 public:
+    //contructor
     ZedBoard();
+    //destructor
     ~ZedBoard();
+    //Write to the mapped memory
     void RegisterWrite(int offset, int value);
+    //read from the mapped memory
     int RegisterRead(int offset);
-    void  setLed(int led, int value);
+    //Set the LED base on the values
+    void setLed(int led, int value);
 };
 
 #endif
