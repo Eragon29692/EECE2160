@@ -12,37 +12,39 @@ int main()
 {
     int servoNumber;
     int servoAngle;
-
+    //getting the servo number
     cout << "Enter desired servo [1, 5]: ";
     cin >> servoNumber;
-    
-    switch(servoNumber) {
-	case 1:
-	    servoNumber = 13;
-	    break;        
-	case 2:
-            servoNumber = 10;
-	    break;
-        case 3:
-            servoNumber = 11;
-	    break;
-        case 4:
-            servoNumber = 12;
-	    break;
-        case 5:
-            servoNumber = 0;
-	    break;
-	default:
-	    cout << "Invalid servo number";
-	    return 0;
-	    break;
+    //converting the servo number to the actually servo port
+    switch (servoNumber) {
+    case 1:
+        servoNumber = 13;
+        break;
+    case 2:
+        servoNumber = 10;
+        break;
+    case 3:
+        servoNumber = 11;
+        break;
+    case 4:
+        servoNumber = 12;
+        break;
+    case 5:
+        servoNumber = 0;
+        break;
+    default:
+        cout << "Invalid servo number";
+        return 0;
+        break;
     }
 
+    //getting the angle
     cout << "Enter desired angle [5, 175]: ";
     cin >> servoAngle;
 
+    //check for valid angle
     if (servoAngle < 5 || servoAngle > 175) {
-	cout << "Invalid servo angle";
+        cout << "Invalid servo angle";
         return 0;
     }
 

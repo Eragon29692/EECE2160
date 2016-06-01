@@ -19,12 +19,13 @@ int main()
     int endAngle2;
     int speed2;
 
-
+    //getting the 2 servo which will be moved
     cout << "Enter desired servo 1 [1, 5]: ";
     cin >> servoNumber1;
     cout << "Enter desired servo 2 [1, 5]: ";
     cin >> servoNumber2;
 
+    //converting the servo number 1 to the actual servo port
     switch (servoNumber1) {
     case 1:
         servoNumber1 = 13;
@@ -47,6 +48,7 @@ int main()
         break;
     }
 
+    //converting the servo number 2 to the actual servo port
     switch (servoNumber2) {
     case 1:
         servoNumber2 = 13;
@@ -70,69 +72,71 @@ int main()
     }
 
 
-    //start angle
-    cout << "Enter desired start angle (0, 180): ";
+    //getting the start angle 1
+    cout << "Enter desired start angle 1 (5, 175): ";
     cin >> startAngle1;
-
-    cout << "Enter desired start angle (0, 180): ";
-    cin >> startAngle2;
-
-
-    if (startAngle1 <= 0 || startAngle1 >= 180) {
+    //checking for valid start angle 1
+    if (startAngle1 < 5 || startAngle1 > 175) {
         cout << "Invalid servo angle";
         return 0;
     }
-
-    if (startAngle2 <= 0 || startAngle2 >= 180) {
+    //gettign the start angle 2
+    cout << "Enter desired start angle 2 (5, 175): ";
+    cin >> startAngle2;
+    //checking for valid starting angle
+    if (startAngle2 < 5 || startAngle2 > 175) {
         cout << "Invalid servo angle";
         return 0;
     }
 
     //endAngle
-    cout << "Enter desired end angle (0, 180): ";
+    cout << "Enter desired end angle 1 (5, 175): ";
     cin >> endAngle1;
-
+    //checking for valid and angle
     if (endAngle1 < 5 || endAngle1 > 175) {
         cout << "Invalid servo angle";
         return 0;
     }
-
-    cout << "Enter desired end angle (0, 180): ";
+    //gettign the angle
+    cout << "Enter desired end angle 2 (5, 175): ";
     cin >> endAngle2;
-
+    //checking for valid end angle
     if (endAngle2 < 5 || endAngle2 > 175) {
         cout << "Invalid servo angle";
         return 0;
     }
 
-    //speed
+    //getting speed 2
     cout << "Enter desired rotational speed/s: ";
     cin >> speed1;
 
+    //getting speed 2
     cout << "Enter desired rotational speed/s: ";
     cin >> speed2;
 
-
-    //calculation
+    //calculation for the first servo
     int startPulse1 = degreeToOnDelay(startAngle1);
     int endPulse1 = degreeToOnDelay(endAngle1);
     int numOfPeriod1 = (abs(startAngle1 - endAngle1)/speed1) * 1000 / 20;
 
+    //calculation for the second servo
     int startPulse2 = degreeToOnDelay(startAngle2);
     int endPulse2 = degreeToOnDelay(endAngle2);
     int numOfPeriod2 = (abs(startAngle2 - endAngle2)/speed2) * 1000 / 20;
 
-
+	
     // Open device file on Linux file system
     GPIO gpio(servoNumber1, servoNumber2);
 
-    cout << "start";
+
+    //getting the servos to the starting posiotions
     gpio.GeneratePWM(20000, startPulse1, startPulse2, 200);
-    cout << "rotate";
+    //moving the servo to the ending position base on the calculated speed
     gpio.GenerateVariablePWM(20000, startPulse1, endPulse1, numOfPeriod1, startPulse2, endPulse2, numOfPeriod2);
-    cout << "end";
+    //holding the servos at the endign position for 2 seconds
     gpio.GeneratePWM(20000, endPulse1, endPulse2, 200);
 
-    // Done
+    //Done
     return 0;
+
 }
