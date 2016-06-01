@@ -29,8 +29,7 @@ int main()
 
 
     //input number transformed into the
-    //they are assigned the value for the output pin
-    // ecah number respresentsa a differente general purpose output pin
+    //
     switch (servoNumber1) {
     case 1:
         servoNumber1 = 13;
@@ -52,7 +51,6 @@ int main()
         return 0;
         break;
     }
-    // same process for the second purpose
 
     switch (servoNumber2) {
     case 1:
@@ -83,9 +81,8 @@ int main()
 
     cout << "Enter desired start angle (0, 180): ";
     cin >> startAngle2;
-	
-   
-    //Checks if the start angles are within range
+
+
     if (startAngle1 <= 0 || startAngle1 >= 180) {
         cout << "Invalid servo angle";
         return 0;
@@ -96,7 +93,7 @@ int main()
         return 0;
     }
 
-    //endAngle, also check if they are within range
+    //endAngle
     cout << "Enter desired end angle (0, 180): ";
     cin >> endAngle1;
 
@@ -113,7 +110,7 @@ int main()
         return 0;
     }
 
-    //speed for each motor
+    //speed
     cout << "Enter desired rotational speed/s: ";
     cin >> speed1;
 
@@ -125,8 +122,6 @@ int main()
     int startPulse1 = degreeToOnDelay(startAngle1);
     int endPulse1 = degreeToOnDelay(endAngle1);
     int numOfPeriod1 = (abs(startAngle1 - endAngle1)/speed1) * 1000 / 20;
-    //we have the distance(degrees) and the speed, so we can obtain the time
-    //we also conver the time to milli seconds
 
     int startPulse2 = degreeToOnDelay(startAngle2);
     int endPulse2 = degreeToOnDelay(endAngle2);
@@ -137,9 +132,9 @@ int main()
     GPIO gpio(servoNumber1, servoNumber2);
 
     cout << "start";
-    gpio.GeneratePWM(20000, startPulse1, startPulse2, 200);//intiialize at a degree vlue
+    gpio.GeneratePWM(20000, startPulse1, startPulse2, 200);
     cout << "rotate";
-    gpio.GenerateVariablePWM(20000, startPulse1, endPulse1, numOfPeriod1, startPulse2, endPulse2, numOfPeriod2)
+    gpio.GenerateVariablePWM(20000, startPulse1, endPulse1, numOfPeriod1, startPulse2, endPulse2, numOfPeriod2);
     cout << "end";
     gpio.GeneratePWM(20000, endPulse1, endPulse2, 200);
 
