@@ -35,5 +35,6 @@ public:
 
     void GenerateVariablePWM(int period, int first_pulse1, int last_pulse1, int num_periods1, int first_pulse2, int last_pulse2, int num_periods2);
 
+	void helpSleep(int period, int pulse1, int pulse2);
 };
 #endif

@@ -7,6 +7,26 @@
 
 
 
+void GPIO::helpSleep(int period, int pulse1, int pulse2) {
+    if (pulse1 < pulse2) {
+        write(fd1, "1", 1);
+        write(fd2, "1", 1);
+        usleep(pulse1);
+        write(fd1, "0", 1);
+        usleep(pulse2 - pulse1);
+        write(fd2, "0", 1);
+        usleep(period - pulse2);
+    } else {
+        write(fd2, "1", 1);
+        write(fd1, "1", 1);
+        usleep(pulse2);
+        write(fd2, "0", 1);
+        usleep(pulse1 - pulse2);
+        write(fd1, "0", 1);
+        usleep(period - pulse1);
+    }
+}
+
 GPIO::GPIO(int number1, int number2)
 {
 // GPIO device files will follow the format
@@ -48,7 +68,7 @@ void GPIO::GeneratePWM(int period, int pulse1, int pulse2, int num_periods)
     // Generate num_perios of the PWM signal
     for (int i = 0; i < num_periods; i++)
     {
-        helpSleep(pulse1, pulse2);
+        helpSleep(period, pulse1, pulse2);
     }
 }
 
@@ -60,34 +80,17 @@ void GPIO::GenerateVariablePWM(int period, int first_pulse1, int last_pulse1, in
     int pulse2 = first_pulse2;
     int addPerPulse2 = (last_pulse2 - first_pulse2)/num_periods2;
 
+	int maxPeriod = num_periods1;
+	if (num_periods2 > num_periods1)
+		maxPeriod = num_periods2;
     // Generate num_perios of the PWM signal
-    for (int i = 0; i < num_periods1 || i < num_periods2; i++)
+    for (int i = 0; i < maxPeriod; i++)
     {
-        helpSleep(pulse1, pulse2);
-        if (pulse1 < last_pulse1)
+        helpSleep(period, pulse1, pulse2);
+        if (abs(pulse1 - last_pulse1) > addPerPulse1)
             pulse1 += addPerPulse1;
-        if (pulse2 < last_pulse2)
+        if (abs(pulse2 - last_pulse2) > addPerPulse2)
             pulse2 += addPerPulse2;
     }
 }
 
-
-void helpSleep(int pulse1, int pulse2) {
-    if (pulse1 < pulse2) {
-        write(fd1, "1", 1);
-        write(fd2, "1", 1);
-        usleep(pulse1);
-        write(fd1, "0", 1);
-        usleep(pulse2 - pulse1);
-        write(fd2, "0", 1);
-        usleep(period - pulse2);
-    } else {
-        write(fd2, "1", 1);
-        write(fd1, "1", 1);
-        usleep(pulse2);
-        write(fd2, "0", 1);
-        usleep(pulse1 - pulse2);
-        write(fd1, "0", 1);
-        usleep(period - pulse1);
-    }
-}

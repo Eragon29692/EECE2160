@@ -75,7 +75,7 @@ int main()
     cin >> startAngle1;
 
     cout << "Enter desired start angle (0, 180): ";
-    cin >> startAngle2
+    cin >> startAngle2;
 
 
     if (startAngle1 <= 0 || startAngle1 >= 180) {
@@ -127,11 +127,11 @@ int main()
     GPIO gpio(servoNumber1, servoNumber2);
 
     cout << "start";
-    gpio.GeneratePWM(20000, startPulse1, startAngle2, 100);
+    gpio.GeneratePWM(20000, startPulse1, startPulse2, 200);
     cout << "rotate";
     gpio.GenerateVariablePWM(20000, startPulse1, endPulse1, numOfPeriod1, startPulse2, endPulse2, numOfPeriod2);
     cout << "end";
-    gpio.GeneratePWM(20000, endPulse1, endPulse2, 100);
+    gpio.GeneratePWM(20000, endPulse1, endPulse2, 200);
 
     // Done
     return 0;
