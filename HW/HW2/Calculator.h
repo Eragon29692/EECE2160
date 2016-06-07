@@ -1,5 +1,5 @@
-#ifndef WIIMOTEACCEL_H
-#define WIIMOTEACCEL_H
+#ifndef CALCULATOR_H
+#define CALCULATOR_H
 
 template<class T> class Calculator
 {

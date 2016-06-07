@@ -6,8 +6,8 @@ using namespace std;
 
 template<class T>
 Calculator<T>::Calculator() {
-    data1 = T();
-    data2 = T();
+    value1 = T();
+    value2 = T();
 }
 
 template<class T>
