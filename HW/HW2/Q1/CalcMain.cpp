@@ -9,11 +9,11 @@ private:
     int intData;
     float floatData;
     double doubleData;
-    template<template <typename P> class T2>
+    template<class T2>
     void printOperation(T2 obj) {
-        cout << obj<T2>.getValue1() << " + " << obj.getValue2() << " = " << obj.getSum();
-        cout << obj<T2>.getValue1() << " && " << obj.getValue2() << " = " << obj.getLogicalAND();
-        cout << obj<T2>.getValue1() << " > " << obj.getValue2() << " = " << obj.isGreater();
+        cout << obj.getValue1() << " + " << obj.getValue2() << " = " << obj.getSum();
+        cout << obj.getValue1() << " && " << obj.getValue2() << " = " << obj.getLogicalAND();
+        cout << obj.getValue1() << " > " << obj.getValue2() << " = " << obj.isGreater();
     }
 public:
     Arithmetic() {
@@ -42,17 +42,17 @@ public:
 
     void intOperations(Arithmetic obj) {
         Calculator<int> cal(intData, obj.getInt());
-        printOperation<Calculator<int> >(cal);
+        printOperation(cal);
     }
 
     void floatOperations(Arithmetic obj) {
         Calculator<float> cal(floatData, obj.getFloat());
-        printOperation<Calculator<float> >(cal);
+        printOperation(cal);
     }
 
     void doubleOperations(Arithmetic obj) {
         Calculator<double> cal(doubleData, obj.getDouble());
-        printOperation<Calculator<double> >(cal);
+        printOperation(cal);
     }
 
 };
