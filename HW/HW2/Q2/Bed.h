@@ -1,5 +1,9 @@
-#ifndef CALCULATOR_H
-#define CALCULATOR_H
+#ifndef BED_H
+#define BED_H
+#include <string>
+#include "Furniture.h"
+#include <cstdlib>
+using namespace std;
 
 class Bed : public Furniture {
 private:

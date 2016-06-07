@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Table.h"
-#include "Furniture.h"
+
 using namespace std;
 
 Table::Table(string newName, string woodType) : Furniture(newName) {

@@ -1,5 +1,8 @@
-#ifndef CALCULATOR_H
-#define CALCULATOR_H
+#ifndef FURNITURE_H
+#define FURNITURE_H
+#include <string>
+#include <cstdlib>
+using namespace std;
 
 class Furniture {
 private:
