@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Calculator.h"
-
+#include "Calculator.cpp"
 using namespace std;
 
 class Arithmetic {
@@ -42,7 +42,7 @@ public:
 
     void intOperations(Arithmetic obj) {
         Calculator<int> cal(intData, obj.getInt());
-        printOperation(cal);
+        printOperation<Calculator<int> >(cal);
     }
 
     void floatOperations(Arithmetic obj) {
