@@ -11,9 +11,14 @@ private:
     double doubleData;
     template<class T2>
     void printOperation(T2 obj) {
-        cout << obj.getValue1() << " + " << obj.getValue2() << " = " << obj.getSum();
-        cout << obj.getValue1() << " && " << obj.getValue2() << " = " << obj.getLogicalAND();
-        cout << obj.getValue1() << " > " << obj.getValue2() << " = " << obj.isGreater();
+        cout << obj.getValue1() << " + " << obj.getValue2() << " = " << obj.getSum() << endl;
+        cout << obj.getValue1() << " && " << obj.getValue2() << " = " << obj.getLogicalAND() << endl;
+        cout << obj.getValue1() << " > " << obj.getValue2() << " = ";
+        if (obj.isGreater())
+            cout << "true";
+        else
+            cout << "false";
+        cout << endl;
     }
 public:
     Arithmetic() {
@@ -61,23 +66,24 @@ public:
 int main()
 {
 // Create 1st object
-int int1 = 4;
-float f1 = 10.4;
-double d1 = 20.1;
-Arithmetic object1(int1, f1, d1);
+    int int1 = 4;
+    float f1 = 10.4;
+    double d1 = 20.1;
+    Arithmetic object1(int1, f1, d1);
 // Create 2nd object
-int int2 = 7;
-float f2 = 0.0;
-double d2 = 3.5;
-Arithmetic object2(int2, f2, d2);
+    int int2 = 7;
+    float f2 = 0.0;
+    double d2 = 3.5;
+    Arithmetic object2(int2, f2, d2);
 // Check operation on integer data type
-cout << "\nPrinting INTEGER operations..." << endl;
-object1.intOperations(object2);
+    cout << "\nPrinting INTEGER operations..." << endl;
+    object1.intOperations(object2);
 // Check operation on float data type
-cout << "\nPrinting FLOAT operations..." << endl;
-object1.floatOperations(object2);
+    cout << "\nPrinting FLOAT operations..." << endl;
+    object1.floatOperations(object2);
 // Check operation on double data type
-cout << "\nPrinting DOUBLE operations..." << endl;
-object1.doubleOperations(object2);
+    cout << "\nPrinting DOUBLE operations..." << endl;
+    object1.doubleOperations(object2);
 } // end main
+
 
