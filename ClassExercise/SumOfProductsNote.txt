@@ -1,0 +1,35 @@
+A	B	C	F	F2
+0	0	0	0	1
+0	0	1	0	0
+0	1	0	0	1
+0	1	1	1	0
+1	0	0	0	1
+1	0	1	1	0
+1	1	0	1	1
+1	1	1	1	1
+
+Product of sums (when the output F == 0 => 0->A and 1->A')
+F = (A+B+C)(A+B+C')(A+B'+C)(A+B+C)
+
+
+Sum of Product  (when the output F == 1 => 0->A' and 1->A)
+F =  A'BC + AB'C + ABC' + ABC
+
+Since A + A = A
+=> A'BC + AB'C + AB + ABC
+=> BC + AC + AB
+
+
+Sum of Product
+F2 = A'B'C' + A'BC' + AB'C' + ABC' + ABC
+
+
+Simlify
+x(x + y) = xy
+(x + y)(x + y') = x + xy' + xy = x + x = x
+x + x'y = (x + x')(x + y) = x + y
+
+
+
+
+T = 1/f
