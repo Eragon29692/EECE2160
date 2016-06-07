@@ -29,6 +29,7 @@ void Furniture::ReadDimentions() {
 }
 
 void Furniture::Print() {
+    cout << "\n" << name << ":\n";
     cout << "Width = " << width << ", height = " << height << ", depth = " << depth << endl;
 }
 

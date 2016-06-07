@@ -15,7 +15,6 @@ Table::Table(string newName, string woodType) : Furniture(newName) {
 }
 
 void Table::Print() {
-    cout << "\nMyTable:\n";
     Furniture::Print();
     cout << wood << " wood\n";
 }

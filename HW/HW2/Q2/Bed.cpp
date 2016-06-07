@@ -14,7 +14,6 @@ Bed::Bed(string newName, string newSize) : Furniture(newName) {
 }
 
 void Bed::Print() {
-cout << "\nMyBed:\n";
     Furniture::Print();
     cout << size << " size\n";
 }
