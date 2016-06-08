@@ -1,19 +1,27 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
+//class template
 template<class T> class Calculator
 {
 private:
-	T value1;
-	T value2;
+    //private data member
+    T value1;
+    T value2;
 public:
-	Calculator();
-	Calculator(T value1, T value2);
-	T getValue1();
-	T getValue2();
-	T getSum();
-	int getLogicalAND();
-	bool isGreater();
+    //constructors
+    Calculator();
+    Calculator(T value1, T value2);
+    //getters
+    T getValue1();
+    T getValue2();
+    //getSum with + operand
+    T getSum();
+    //and logical with && operand
+    int getLogicalAND();
+    //comparison with > operand
+    bool isGreater();
 };
 
 #endif
+

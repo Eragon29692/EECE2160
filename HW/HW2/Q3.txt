@@ -1,0 +1,29 @@
+a.
+xyz + x'y + xyz'
+= y(xz + x' + xz')
+= y(x(z + z') + x')
+= y(x + x')
+= y
+
+b.
+(x + y)'(x' + y')
+= x'y'(x' + y')
+= x'x'y' + x'y'y'
+= x'y' + x'y'
+= x'y'
+
+c.
+A'C' + ABC + AC'
+= C'(A' + A) + ABC
+= C' + ABC
+= (C' + AB)(C' + C)
+= AB + C'
+
+d.
+(A + B)'(A' + B')'
+= A'B'(AB)
+= 0
+
+
+
+
